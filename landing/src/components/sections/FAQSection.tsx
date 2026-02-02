@@ -58,17 +58,19 @@ export const FAQSection: React.FC = () => {
             Quick answers to common questions.
           </p>
         </FadeIn>
-        
-        <SlideUp 
+
+        <SlideUp
           variants={slideUpVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="max-w-3xl mx-auto"
+          className="max-w-3xl mx-auto relative"
         >
-          <EtherealShadow variant="subtle">
-            <FAQAccordion items={faqData} />
-          </EtherealShadow>
+          {/* Decorative background elements */}
+          <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
+          <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
+
+          <FAQAccordion items={faqData} />
         </SlideUp>
       </div>
     </section>

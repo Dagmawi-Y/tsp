@@ -1,5 +1,13 @@
-import React from 'react';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from './Accordion';
+import { HelpCircle, Plus, Minus, ChevronRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
+import { EtherealShadow } from './ethereal-shadow';
 
 interface AccordionItemData {
   id: string;
@@ -17,19 +25,52 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({
   className = '',
 }) => {
   return (
-    <Accordion 
-      type="multiple" 
-      className={className}
+    <Accordion
+      type="single"
+      collapsible
+      className={cn("space-y-6", className)}
     >
-      {items.map((item) => (
-        <AccordionItem key={item.id} value={item.id}>
-          <AccordionTrigger className="text-left">
-            {item.question}
-          </AccordionTrigger>
-          <AccordionContent className="text-muted-foreground">
-            {item.answer}
-          </AccordionContent>
-        </AccordionItem>
+      {items.map((item, index) => (
+        <EtherealShadow
+          key={item.id}
+          variant="subtle"
+          className="rounded-2xl"
+        >
+          <AccordionItem
+            value={item.id}
+            className="border-0 bg-card/60 backdrop-blur-md rounded-2xl overflow-hidden transition-all duration-500 hover:bg-card/80 ring-1 ring-border/50 group"
+          >
+            <AccordionTrigger
+              hideChevron
+              className={cn(
+                "px-8 py-6 text-left hover:no-underline transition-all duration-300",
+                "data-[state=open]:bg-primary/[0.03]"
+              )}
+            >
+              <div className="flex items-center gap-6 w-full">
+                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 shadow-sm">
+                  <span className="text-sm font-bold">{index + 1}</span>
+                </div>
+                <span className="text-lg md:text-xl font-bold tracking-tight text-foreground/90 group-hover:text-primary transition-colors duration-300">
+                  {item.question}
+                </span>
+                <div className="ml-auto opacity-40 group-hover:opacity-100 transition-opacity">
+                  <ChevronRight className="w-5 h-5 transition-transform duration-500 group-data-[state=open]:rotate-90" />
+                </div>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="px-8 pb-8 text-muted-foreground/90 leading-relaxed text-lg">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="pt-4 border-t border-border/40"
+              >
+                {item.answer}
+              </motion.div>
+            </AccordionContent>
+          </AccordionItem>
+        </EtherealShadow>
       ))}
     </Accordion>
   );
