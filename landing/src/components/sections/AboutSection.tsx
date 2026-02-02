@@ -1,142 +1,111 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { EtherealShadow } from '@/components/ui/ethereal-shadow';
-import { FadeIn, SlideUp, StaggerContainer, fadeInVariants, slideUpVariants, staggerVariants, cardHoverVariants } from '@/components/ui/motion';
-import { Code, Users, Target, Zap, BookOpen, Rocket } from 'lucide-react';
+import { FadeIn, SlideUp, StaggerContainer, fadeInVariants, slideUpVariants, staggerVariants } from '@/components/ui/motion';
+import { Code, Users, Target, Zap, BookOpen, Rocket, Sparkles } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export default function AboutSection() {
   const features = [
     {
       icon: Code,
       title: 'Real Projects',
-      description: 'Build production-ready applications that solve actual problems'
+      description: 'Ditch the tutorials. Build production-grade applications that solve actual user problems.'
     },
     {
       icon: Users,
-      title: 'Expert Mentorship',
-      description: 'Learn from experienced developers with 1-on-1 guidance'
+      title: '1-on-1 Mentorship',
+      description: 'Get direct guidance from industry veterans who have built products at scale.'
     },
     {
       icon: Target,
-      title: 'Industry Focus',
-      description: 'Master the tools and practices used in top tech companies'
-    },
-    {
-      icon: Zap,
-      title: 'Fast-Track Learning',
-      description: 'Accelerate your growth with structured, intensive training'
-    },
-    {
-      icon: BookOpen,
-      title: 'Best Practices',
-      description: 'Learn clean code, testing, deployment, and collaboration'
-    },
-    {
-      icon: Rocket,
-      title: 'Career Ready',
-      description: 'Graduate with a portfolio that gets you hired'
+      title: 'Industry Standards',
+      description: 'Master CI/CD, testing, and system design—the skills top tech companies actually hire for.'
     }
   ];
 
   return (
-    <section id="about" className="py-16 md:py-24 lg:py-32 bg-gradient-to-br from-background via-background to-muted/50 scroll-mt-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <FadeIn variants={fadeInVariants} className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 tracking-tight">
-            About TSP
-          </h2>
-          <div className="max-w-3xl mx-auto space-y-6">
-            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed font-medium">
-              Transform from aspiring developer to industry-ready engineer in just 3 months.
-            </p>
-          </div>
-        </FadeIn>
+    <section id="about" className="relative py-24 md:py-32 overflow-hidden scroll-mt-20">
+      {/* Background Decorative Element */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] -z-10" />
 
-        {/* Features Grid */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <StaggerContainer
           variants={staggerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+          className="space-y-32"
         >
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
-            return (
-              <SlideUp key={index} variants={slideUpVariants}>
-                <EtherealShadow variant="subtle">
-                  <Card className="group hover:shadow-lg transition-all duration-300 border-0 bg-card/80 backdrop-blur-sm h-full">
-                    <CardContent className="p-6 text-center">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-primary rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <Icon className="w-8 h-8 text-primary-foreground" />
-                      </div>
-                      <h3 className="text-xl font-bold text-foreground mb-3 tracking-tight">
-                        {feature.title}
-                      </h3>
-                      <p className="text-muted-foreground leading-relaxed">
-                        {feature.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </EtherealShadow>
-              </SlideUp>
-            );
-          })}
+          {/* Mission Block - Clean & High Impact */}
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <FadeIn variants={fadeInVariants}>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-bold text-primary uppercase tracking-widest mb-4">
+                Our Mission
+              </div>
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-foreground tracking-tight leading-[1.1]">
+                Bridging the gap between <br />
+                <span className="text-primary">learning</span> and <span className="opacity-50">doing.</span>
+              </h2>
+            </FadeIn>
+
+            <FadeIn variants={fadeInVariants}>
+              <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed font-medium max-w-2xl mx-auto">
+                We believe anyone can become a world-class engineer with the right high-stakes environment and mentorship.
+              </p>
+            </FadeIn>
+          </div>
+
+          {/* Features Grid - Simple & Neat */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {features.map((feature, index) => {
+              const Icon = feature.icon;
+              return (
+                <SlideUp key={index} variants={slideUpVariants}>
+                  <EtherealShadow variant="subtle" className="h-full">
+                    <Card className="h-full border-0 bg-card/40 backdrop-blur-md ring-1 ring-border/50 transition-all duration-500 hover:ring-primary/30 group">
+                      <CardContent className="p-8 space-y-6">
+                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
+                          <Icon className="w-6 h-6" />
+                        </div>
+                        <div className="space-y-3">
+                          <h3 className="text-xl font-bold text-foreground">
+                            {feature.title}
+                          </h3>
+                          <p className="text-muted-foreground/90 leading-relaxed font-medium">
+                            {feature.description}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </EtherealShadow>
+                </SlideUp>
+              );
+            })}
+          </div>
+
+          {/* Core Stats - Neatly integrated */}
+          <FadeIn variants={fadeInVariants} className="pt-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-y border-border/50">
+              <div className="text-center space-y-1">
+                <p className="text-3xl font-black text-foreground">3 Mo.</p>
+                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Intensive</p>
+              </div>
+              <div className="text-center space-y-1">
+                <p className="text-3xl font-black text-foreground">1:1</p>
+                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Guidance</p>
+              </div>
+              <div className="text-center space-y-1">
+                <p className="text-3xl font-black text-foreground">100%</p>
+                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Real Build</p>
+              </div>
+              <div className="text-center space-y-1">
+                <p className="text-3xl font-black text-foreground">24/7</p>
+                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Support</p>
+              </div>
+            </div>
+          </FadeIn>
         </StaggerContainer>
-
-        {/* Stats Section */}
-        <FadeIn
-          variants={fadeInVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <EtherealShadow variant="intense">
-            <Card className="bg-primary text-primary-foreground">
-              <CardContent className="p-8 md:p-12">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                  <div>
-                    <h3 className="text-4xl md:text-5xl font-bold mb-2">3</h3>
-                    <p className="text-primary-foreground/80 text-lg">Months to Transform</p>
-                  </div>
-                  <div>
-                    <h3 className="text-4xl md:text-5xl font-bold mb-2">1:1</h3>
-                    <p className="text-primary-foreground/80 text-lg">Mentorship Sessions</p>
-                  </div>
-                  <div>
-                    <h3 className="text-4xl md:text-5xl font-bold mb-2">100%</h3>
-                    <p className="text-primary-foreground/80 text-lg">Project Completion</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </EtherealShadow>
-        </FadeIn>
-
-        {/* Mission Statement */}
-        <SlideUp
-          variants={slideUpVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="text-center mt-16"
-        >
-          <EtherealShadow>
-            <Card className="max-w-4xl mx-auto bg-card/80 backdrop-blur-sm border-0">
-              <CardContent className="p-8 md:p-12">
-                <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-6 tracking-tight">
-                  Our Mission
-                </h3>
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium">
-                  We believe that with the right guidance, dedication, and hands-on experience,
-                  anyone can become a world-class developer. TSP bridges the gap between learning to code
-                  and becoming a professional software engineer.
-                </p>
-              </CardContent>
-            </Card>
-          </EtherealShadow>
-        </SlideUp>
       </div>
     </section>
   );
