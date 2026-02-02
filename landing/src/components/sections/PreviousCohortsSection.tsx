@@ -31,28 +31,13 @@ export const PreviousCohortsSection: React.FC = () => {
         </div>
 
         {/* Projects Grid */}
-        <div className={`grid gap-8 ${
-          featuredProjects.length === 1 
-            ? 'grid-cols-1 max-w-md mx-auto' 
-            : featuredProjects.length === 2 
-            ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto' 
-            : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
-        }`}>
+        <div className={`grid gap-8 ${featuredProjects.length === 1
+            ? 'grid-cols-1 max-w-md mx-auto'
+            : featuredProjects.length === 2
+              ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto'
+              : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+          }`}>
           {featuredProjects.map((project) => (
-            <EtherealShadow key={project.id} variant="subtle">
-              <Card className="group hover:shadow-lg transition-all duration-300 h-full">
-                <div className="relative w-full aspect-video rounded-t-lg overflow-hidden">
-                  {project.imageUrl && project.imageUrl.length > 0 ? (
-                    <Image
-                      src={project.imageUrl[0]}
-                      alt={`${project.title} screenshot`}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-muted text-muted-foreground">
-                      No image available
             <EtherealShadow key={project.id} variant="subtle">
               <Card className="group hover:shadow-lg transition-all duration-300 h-full">
                 {/* Project Screenshot */}
@@ -94,7 +79,7 @@ export const PreviousCohortsSection: React.FC = () => {
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     {project.description}
                   </p>
-                  
+
                   {/* Tech badges */}
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.map((tech) => (
