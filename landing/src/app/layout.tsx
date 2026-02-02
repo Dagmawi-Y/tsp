@@ -16,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Side Project with Daggy (SPD) - 3-Month Mentorship Program",
+  title: "The Side Project (TSP) - 3-Month Mentorship Program",
   description: "A 3-month mentorship helping aspiring engineers build real projects and get ready for their career. Apply for Cohort 2 and join our community of builders.",
   keywords: ["mentorship", "software development", "side projects", "engineering", "programming", "web development"],
   authors: [{ name: "Daggy" }],
@@ -30,24 +30,24 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
   },
   openGraph: {
-    title: "Side Project with Daggy (SPD)",
+    title: "The Side Project (TSP)",
     description: "A 3-month mentorship helping aspiring engineers build real projects and get ready for their career",
     type: "website",
     locale: "en_US",
     images: [
       {
-        url: "/assets/spd-logo.jpg",
+        url: "/assets/tsp-logo.jpg",
         width: 1200,
         height: 630,
-        alt: "SPD Logo",
+        alt: "TSP Logo",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Side Project with Daggy (SPD)",
+    title: "The Side Project (TSP)",
     description: "A 3-month mentorship helping aspiring engineers build real projects and get ready for their career",
-    images: ["/assets/spd-logo.jpg"],
+    images: ["/assets/tsp-logo.jpg"],
   },
   robots: {
     index: true,

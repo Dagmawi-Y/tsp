@@ -14,16 +14,16 @@ export default function ApplyPage() {
   const handleSubmit = async (data: ApplicationData) => {
     // TODO: Replace with actual API call
     console.log('Application submitted:', data);
-    
+
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
-    
+
     // For now, just log the data
     // In a real app, you'd send this to your backend
   };
 
   return (
-    <FadeIn 
+    <FadeIn
       variants={fadeInVariants}
       initial="hidden"
       animate="visible"
@@ -42,8 +42,8 @@ export default function ApplyPage() {
               <div className="text-center">
                 <div className="flex justify-center mb-6">
                   <Image
-                    src="/assets/spd-logo.jpg"
-                    alt="SPD Logo"
+                    src="/assets/tsp-logo.jpg"
+                    alt="TSP Logo"
                     width={80}
                     height={80}
                     className="rounded-xl shadow-lg"
@@ -57,11 +57,11 @@ export default function ApplyPage() {
                 </p>
               </div>
             </div>
-            
+
             <ApplicationForm onSubmit={handleSubmit} />
           </div>
         </div>
-        
+
         <Footer />
       </EtherealShadow>
     </FadeIn>

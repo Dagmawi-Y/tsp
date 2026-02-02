@@ -8,17 +8,17 @@ export function Footer() {
           {/* Logo and Copyright */}
           <div className="flex items-center space-x-3">
             <Image
-              src="/assets/spd-logo.jpg"
-              alt="SPD Logo"
+              src="/assets/tsp-logo.jpg"
+              alt="TSP Logo"
               width={32}
               height={32}
               className="rounded-lg"
             />
             <div className="text-sm text-muted-foreground">
-              SPD © 2025 | Made by Daggy
+              TSP © 2025 | Made by Daggy
             </div>
           </div>
-          
+
           {/* Contact Links */}
           <div className="flex items-center space-x-6">
             <a

@@ -22,7 +22,7 @@ export default function PrevCohortsPage() {
   });
 
   return (
-    <FadeIn 
+    <FadeIn
       variants={fadeInVariants}
       initial="hidden"
       animate="visible"
@@ -40,8 +40,8 @@ export default function PrevCohortsPage() {
             </Link>
             <div className="text-center mb-8">
               <Image
-                src="/assets/spd-logo.jpg"
-                alt="SPD Logo"
+                src="/assets/tsp-logo.jpg"
+                alt="TSP Logo"
                 width={80}
                 height={80}
                 className="rounded-xl shadow-lg mx-auto mb-4"
@@ -101,36 +101,35 @@ export default function PrevCohortsPage() {
           </EtherealShadow>
 
           {/* Projects Grid */}
-          <div className={`grid gap-8 ${
-            filteredProjects.length === 1 
-              ? 'grid-cols-1 max-w-md mx-auto' 
-              : filteredProjects.length === 2 
-              ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto' 
-              : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
-          }`}>
+          <div className={`grid gap-8 ${filteredProjects.length === 1
+              ? 'grid-cols-1 max-w-md mx-auto'
+              : filteredProjects.length === 2
+                ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto'
+                : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+            }`}>
             {filteredProjects.map(project => (
               <EtherealShadow key={project.id} variant="subtle">
                 <Card className="group hover:shadow-lg transition-all duration-300">
 
-                {/* single image */}
-                <div className='relative w-full aspect-video rounded-t-lg overflow-hidden'>
-                  {project.imageUrl?.length >0 ? (
-                    <Image
-                    src={project.imageUrl[0]}
-                    alt={`${project.title} screenshot`}
-                    fill
-                    className="object-cover"
-                    />
-                  ) : (
-                    <div className='aspect-video bg-gradient-to-br from-muted/50 to-muted flex items-center justify-center'>
-                      <div className='text-center text-muted-foreground'>
-                        <ExternalLink className='w-8 h-8 mx-auto mb-2'/>
-                        <p className='text-sm'>No image available</p>
+                  {/* single image */}
+                  <div className='relative w-full aspect-video rounded-t-lg overflow-hidden'>
+                    {project.imageUrl?.length > 0 ? (
+                      <Image
+                        src={project.imageUrl[0]}
+                        alt={`${project.title} screenshot`}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className='aspect-video bg-gradient-to-br from-muted/50 to-muted flex items-center justify-center'>
+                        <div className='text-center text-muted-foreground'>
+                          <ExternalLink className='w-8 h-8 mx-auto mb-2' />
+                          <p className='text-sm'>No image available</p>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                 </div>
-                  
+                    )}
+                  </div>
+
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>
@@ -143,7 +142,7 @@ export default function PrevCohortsPage() {
                       </div>
                     </div>
                   </CardHeader>
-                    
+
 
 
                   <CardContent className="space-y-4">

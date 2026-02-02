@@ -44,7 +44,7 @@ export default function AboutSection() {
         {/* Header */}
         <FadeIn variants={fadeInVariants} className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 tracking-tight">
-            About SPD
+            About TSP
           </h2>
           <div className="max-w-3xl mx-auto space-y-6">
             <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed font-medium">
@@ -74,9 +74,9 @@ export default function AboutSection() {
                       <h3 className="text-xl font-bold text-foreground mb-3 tracking-tight">
                         {feature.title}
                       </h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {feature.description}
-                    </p>
+                      <p className="text-muted-foreground leading-relaxed">
+                        {feature.description}
+                      </p>
                     </CardContent>
                   </Card>
                 </EtherealShadow>
@@ -86,7 +86,7 @@ export default function AboutSection() {
         </StaggerContainer>
 
         {/* Stats Section */}
-        <FadeIn 
+        <FadeIn
           variants={fadeInVariants}
           initial="hidden"
           whileInView="visible"
@@ -94,28 +94,28 @@ export default function AboutSection() {
         >
           <EtherealShadow variant="intense">
             <Card className="bg-primary text-primary-foreground">
-            <CardContent className="p-8 md:p-12">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <div>
-                  <h3 className="text-4xl md:text-5xl font-bold mb-2">3</h3>
-                  <p className="text-primary-foreground/80 text-lg">Months to Transform</p>
+              <CardContent className="p-8 md:p-12">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                  <div>
+                    <h3 className="text-4xl md:text-5xl font-bold mb-2">3</h3>
+                    <p className="text-primary-foreground/80 text-lg">Months to Transform</p>
+                  </div>
+                  <div>
+                    <h3 className="text-4xl md:text-5xl font-bold mb-2">1:1</h3>
+                    <p className="text-primary-foreground/80 text-lg">Mentorship Sessions</p>
+                  </div>
+                  <div>
+                    <h3 className="text-4xl md:text-5xl font-bold mb-2">100%</h3>
+                    <p className="text-primary-foreground/80 text-lg">Project Completion</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-4xl md:text-5xl font-bold mb-2">1:1</h3>
-                  <p className="text-primary-foreground/80 text-lg">Mentorship Sessions</p>
-                </div>
-                <div>
-                  <h3 className="text-4xl md:text-5xl font-bold mb-2">100%</h3>
-                  <p className="text-primary-foreground/80 text-lg">Project Completion</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
           </EtherealShadow>
         </FadeIn>
 
         {/* Mission Statement */}
-        <SlideUp 
+        <SlideUp
           variants={slideUpVariants}
           initial="hidden"
           whileInView="visible"
@@ -130,7 +130,7 @@ export default function AboutSection() {
                 </h3>
                 <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium">
                   We believe that with the right guidance, dedication, and hands-on experience,
-                  anyone can become a world-class developer. SPD bridges the gap between learning to code
+                  anyone can become a world-class developer. TSP bridges the gap between learning to code
                   and becoming a professional software engineer.
                 </p>
               </CardContent>
