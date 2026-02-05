@@ -41,7 +41,7 @@ export default function AboutSection() {
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <FadeIn variants={fadeInVariants}>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-bold text-primary uppercase tracking-widest mb-4">
-                Our Mission
+                The Mission
               </div>
               <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-foreground tracking-tight leading-[1.1]">
                 Bridging the gap between <br />

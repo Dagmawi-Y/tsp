@@ -42,7 +42,7 @@ const hoursOptions = [
 ];
 
 // Helper for consistent input styling that removes all rings and default outlines
-const inputStyles = "h-16 text-2xl font-bold bg-transparent border-0 border-b-2 border-primary/20 focus:border-primary focus-visible:border-primary focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none rounded-none px-0 transition-all placeholder:opacity-20 !ring-0 !outline-none";
+const inputStyles = "h-16 text-2xl font-bold bg-transparent border-0 border-b-2 border-primary/20 focus:border-primary focus-visible:border-primary focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none rounded-none px-4 transition-all placeholder:opacity-20 !ring-0 !outline-none";
 const textareaStyles = "min-h-[200px] text-xl font-medium bg-muted/30 border-2 border-border/50 focus:border-primary focus-visible:border-primary focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none rounded-2xl p-6 transition-all !ring-0 !outline-none";
 
 export const ApplicationForm: React.FC<ApplicationFormProps> = ({
@@ -152,23 +152,13 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
       title: 'Ready to build your breakout project?',
       description: 'Applications for Cohort 2 are now open. This will take about 4 minutes.',
       content: (
-        <div className="flex flex-col items-center md:items-start gap-8">
-          <div className="flex -space-x-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="w-12 h-12 rounded-full border-4 border-background bg-muted overflow-hidden transition-transform hover:scale-110">
-                <img src={`https://i.pravatar.cc/100?img=${i + 10}`} alt="alumni" />
-              </div>
-            ))}
-            <div className="w-12 h-12 rounded-full border-4 border-background bg-primary flex items-center justify-center text-[10px] font-black text-white">
-              +140
-            </div>
-          </div>
+        <div className="flex flex-col items-center md:items-start gap-6">
           <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-primary" /> Join 140+ builders in our community
+            <Sparkles className="w-4 h-4 text-primary" /> Become part of Cohort 2
           </p>
           <div className="flex gap-4">
             <Link href="/">
-              <Button variant="outline" className="rounded-full px-8 h-14 font-bold border-2 hover:bg-muted transition-all">
+              <Button variant="outline" className="rounded-full px-8 h-12 font-bold border-2 hover:bg-muted transition-all">
                 Explore Website
               </Button>
             </Link>
