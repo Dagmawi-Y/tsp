@@ -10,17 +10,17 @@ export default function AboutSection() {
     {
       icon: Code,
       title: 'Real Projects',
-      description: 'Ditch the tutorials. Build production-grade applications that solve actual user problems.'
+      description: 'Ditch the tutorials. We focus on building functional projects that solve actual problems.'
     },
     {
       icon: Users,
-      title: '1-on-1 Mentorship',
-      description: 'Get direct guidance from industry veterans who have built products at scale.'
+      title: 'Direct Guidance',
+      description: 'Work 1-on-1 with a mentor dedicated to helping you solve blockers and stay on track.'
     },
     {
       icon: Target,
-      title: 'Industry Standards',
-      description: 'Master CI/CD, testing, and system design—the skills top tech companies actually hire for.'
+      title: 'Practical Skills',
+      description: 'Master the habits of shipping—from clean architecture to effective technical decision making.'
     }
   ];
 
@@ -45,26 +45,26 @@ export default function AboutSection() {
               </div>
               <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-foreground tracking-tight leading-[1.1]">
                 Bridging the gap between <br />
-                <span className="text-primary">learning</span> and <span className="opacity-50">doing.</span>
+                <span className="text-primary">wanting</span> and <span className="opacity-50">building.</span>
               </h2>
             </FadeIn>
 
             <FadeIn variants={fadeInVariants}>
               <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed font-medium max-w-2xl mx-auto">
-                We believe anyone can become a world-class engineer with the right high-stakes environment and mentorship.
+                The best way to learn is by shipping. I help you cross the finish line on your most ambitious side project.
               </p>
             </FadeIn>
           </div>
 
-          {/* Features Grid - Simple & Neat */}
+          {/* ... (Features grid remains, just updated content above) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
-                <SlideUp key={index} variants={slideUpVariants}>
+                <SlideUp key={index} variants={slideUpVariants} className="h-full">
                   <EtherealShadow variant="subtle" className="h-full">
-                    <Card className="h-full border-0 bg-card/40 backdrop-blur-md ring-1 ring-border/50 transition-all duration-500 hover:ring-primary/30 group">
-                      <CardContent className="p-8 space-y-6">
+                    <Card className="h-full flex flex-col border-0 bg-card/40 backdrop-blur-md ring-1 ring-border/50 transition-all duration-500 hover:ring-primary/30 group">
+                      <CardContent className="p-8 space-y-6 flex-1">
                         <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
                           <Icon className="w-6 h-6" />
                         </div>
@@ -93,15 +93,15 @@ export default function AboutSection() {
               </div>
               <div className="text-center space-y-1">
                 <p className="text-3xl font-black text-foreground">1:1</p>
-                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Guidance</p>
+                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Mentorship</p>
               </div>
               <div className="text-center space-y-1">
                 <p className="text-3xl font-black text-foreground">100%</p>
-                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Real Build</p>
+                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Build-Focused</p>
               </div>
               <div className="text-center space-y-1">
-                <p className="text-3xl font-black text-foreground">24/7</p>
-                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Support</p>
+                <p className="text-3xl font-black text-foreground">Direct</p>
+                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Access</p>
               </div>
             </div>
           </FadeIn>

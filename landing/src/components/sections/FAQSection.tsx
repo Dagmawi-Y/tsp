@@ -42,7 +42,7 @@ const faqData = [
   {
     id: 'after-program',
     question: 'What happens after?',
-    answer: 'Completed project, new skills, dev community connections. Many land jobs or start their own projects.'
+    answer: 'You leave with a finished project, sharper skills, and a community of fellow builders.'
   }
 ];
 

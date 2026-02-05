@@ -32,10 +32,10 @@ export const PreviousCohortsSection: React.FC = () => {
 
         {/* Projects Grid */}
         <div className={`grid gap-8 ${featuredProjects.length === 1
-            ? 'grid-cols-1 max-w-md mx-auto'
-            : featuredProjects.length === 2
-              ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto'
-              : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+          ? 'grid-cols-1 max-w-md mx-auto'
+          : featuredProjects.length === 2
+            ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto'
+            : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
           }`}>
           {featuredProjects.map((project) => (
             <EtherealShadow key={project.id} variant="subtle">
@@ -75,21 +75,23 @@ export const PreviousCohortsSection: React.FC = () => {
                 </CardHeader>
 
                 {/* Card Content */}
-                <CardContent className="space-y-4">
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {project.description}
-                  </p>
+                <CardContent className="space-y-4 flex-1 flex flex-col">
+                  <div className="flex-1 space-y-4">
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {project.description}
+                    </p>
 
-                  {/* Tech badges */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md font-medium"
-                      >
-                        {tech}
-                      </span>
-                    ))}
+                    {/* Tech badges */}
+                    <div className="flex flex-wrap gap-2">
+                      {project.technologies.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md font-medium"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
 
                   {/* Buttons */}

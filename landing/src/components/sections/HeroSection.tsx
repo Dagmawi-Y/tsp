@@ -103,7 +103,7 @@ export function HeroSection() {
 
             <FadeIn variants={fadeInVariants}>
               <p className="text-lg md:text-xl text-muted-foreground/90 max-w-2xl mx-auto leading-relaxed font-medium tracking-tight">
-                A 3-month mentorship to build real products and launch your career.
+                A 3-month mentorship to help you build projects that stand out.
               </p>
             </FadeIn>
           </div>

@@ -1,31 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ApplicationData } from '@/types/application';
 import { Button } from '@/components/ui';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui';
 import { Textarea } from '@/components/ui';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui';
 import { EtherealShadow } from '@/components/ui/ethereal-shadow';
-import { FadeIn, SlideUp, StaggerContainer, fadeInVariants, slideUpVariants, staggerVariants } from '@/components/ui/motion';
-import { CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FadeIn } from '@/components/ui/motion';
+import Link from 'next/link';
+import { CheckCircle, AlertCircle, Loader2, ArrowLeft, ChevronRight, Sparkles, Github, Linkedin, Send } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface ApplicationFormProps {
   onSubmit: (data: ApplicationData) => Promise<void>;
   isSubmitting?: boolean;
-}
-
-interface FormErrors {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  telegramUsername?: string;
-  projectDescription?: string;
-  aboutYou?: string;
-  hoursPerWeek?: string;
 }
 
 const experienceOptions = [
@@ -34,526 +24,681 @@ const experienceOptions = [
   { value: 'fullstack', label: 'Full-stack' },
   { value: 'mobile', label: 'Mobile' },
   { value: 'ml-ai', label: 'ML/AI' },
+  { value: 'design', label: 'UI/UX Design' },
+];
+
+const statusOptions = [
+  { value: 'student', label: 'University Student' },
+  { value: 'professional', label: 'Software Engineer' },
+  { value: 'self-taught', label: 'Self-taught Learner' },
+  { value: 'bootcamp', label: 'Bootcamp Student/Grad' },
+  { value: 'other', label: 'Other' },
 ];
 
 const hoursOptions = [
-  { value: '5-10', label: '5-10 hours' },
-  { value: '10-15', label: '10-15 hours' },
-  { value: '15-20', label: '15-20 hours' },
-  { value: '20+', label: '20+ hours' },
+  { value: '10-15', label: '10-15 hours/week' },
+  { value: '15-20', label: '15-20 hours/week' },
+  { value: '25+', label: '25+ hours/week' },
 ];
 
-const coursesOptions = [
-  { value: 'cs-degree', label: 'Computer Science Degree' },
-  { value: 'bootcamp', label: 'Coding Bootcamp' },
-  { value: 'online-courses', label: 'Online Courses' },
-  { value: 'self-taught', label: 'Self-taught' },
-];
+// Helper for consistent input styling that removes all rings and default outlines
+const inputStyles = "h-16 text-2xl font-bold bg-transparent border-0 border-b-2 border-primary/20 focus:border-primary focus-visible:border-primary focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none rounded-none px-0 transition-all placeholder:opacity-20 !ring-0 !outline-none";
+const textareaStyles = "min-h-[200px] text-xl font-medium bg-muted/30 border-2 border-border/50 focus:border-primary focus-visible:border-primary focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none rounded-2xl p-6 transition-all !ring-0 !outline-none";
 
 export const ApplicationForm: React.FC<ApplicationFormProps> = ({
   onSubmit,
-  isSubmitting = false,
 }) => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
   const [formData, setFormData] = useState<ApplicationData>({
     firstName: '',
     lastName: '',
     email: '',
     telegramUsername: '',
-    phone: '',
-    hasTeam: false,
+    githubUrl: '',
+    linkedinUrl: '',
+    currentStatus: '',
     projectDescription: '',
     projectLink: '',
+    technicalChallenge: '',
     experience: [],
-    aboutYou: '',
+    whyJoin: '',
     canCommit: false,
     hoursPerWeek: '',
-    coursesTaken: [],
-    otherCourses: '',
   });
 
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [otherCoursesEnabled, setOtherCoursesEnabled] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  const validateStep = (step: number) => {
+    const newErrors: Record<string, string> = {};
 
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
-    }
-
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Last name is required';
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
-
-    if (!formData.telegramUsername.trim()) {
-      newErrors.telegramUsername = 'Telegram username is required';
-    }
-
-    if (!formData.projectDescription.trim()) {
-      newErrors.projectDescription = 'Project description is required';
-    }
-
-    if (!formData.aboutYou.trim()) {
-      newErrors.aboutYou = 'This field is required';
-    }
-
-    if (!formData.hoursPerWeek) {
-      newErrors.hoursPerWeek = 'Please select hours per week available';
+    if (step === 1) { // Name
+      if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
+      if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
+    } else if (step === 2) { // Contact
+      if (!formData.email.trim()) newErrors.email = 'Email is required';
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = 'Invalid email';
+      if (!formData.telegramUsername.trim()) newErrors.telegramUsername = 'Telegram is required';
+    } else if (step === 3) { // Socials
+      if (!formData.githubUrl?.trim()) newErrors.githubUrl = 'GitHub URL is required';
+      if (!formData.linkedinUrl?.trim()) newErrors.linkedinUrl = 'LinkedIn URL is required';
+    } else if (step === 4) { // Status
+      if (!formData.currentStatus) newErrors.currentStatus = 'Please select your status';
+    } else if (step === 5) { // Experience
+      if (formData.experience.length === 0) newErrors.experience = 'Select at least one specialization';
+    } else if (step === 6) { // Project
+      if (!formData.projectDescription.trim()) newErrors.projectDescription = 'Description is required';
+      if (!formData.projectLink?.trim()) newErrors.projectLink = 'Project link is required';
+    } else if (step === 7) { // Challenge
+      if (!formData.technicalChallenge?.trim()) newErrors.technicalChallenge = 'This section is required';
+    } else if (step === 8) { // Motivation
+      if (!formData.whyJoin.trim()) newErrors.whyJoin = 'Motivation is required';
+    } else if (step === 9) { // Commitment
+      if (!formData.canCommit) newErrors.canCommit = 'Commitment is required';
+      if (!formData.hoursPerWeek) newErrors.hoursPerWeek = 'Hours per week is required';
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const nextStep = () => {
+    if (validateStep(currentStep)) {
+      setDirection(1);
+      setCurrentStep(prev => Math.min(prev + 1, totalSteps - 1));
+    }
+  };
 
-    if (validateForm()) {
+  const prevStep = () => {
+    setDirection(-1);
+    setCurrentStep(prev => Math.max(prev - 1, 0));
+  };
+
+  const handleSubmit = async () => {
+    if (validateStep(currentStep)) {
+      setIsSubmitting(true);
       try {
-        setSubmitStatus('idle');
         await onSubmit(formData);
         setSubmitStatus('success');
-      } catch {
+      } catch (error) {
         setSubmitStatus('error');
+      } finally {
+        setIsSubmitting(false);
       }
     }
   };
 
-  const handleExperienceChange = (value: string, checked: boolean) => {
-    if (checked) {
-      setFormData(prev => ({ ...prev, experience: [...prev.experience, value] }));
-    } else {
-      setFormData(prev => ({ ...prev, experience: prev.experience.filter(exp => exp !== value) }));
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      if (e.target instanceof HTMLTextAreaElement) return;
+
+      if (currentStep < totalSteps - 1) {
+        e.preventDefault();
+        nextStep();
+      } else if (currentStep === totalSteps - 1) {
+        e.preventDefault();
+        handleSubmit();
+      }
     }
   };
 
-  const handleCoursesChange = (value: string, checked: boolean) => {
-    let newCourses: string[];
-    if (checked) {
-      newCourses = [...formData.coursesTaken, value];
-    } else {
-      newCourses = formData.coursesTaken.filter(course => course !== value);
-    }
+  const steps = [
+    // 0: Welcome
+    {
+      id: 'welcome',
+      title: 'Ready to build your breakout project?',
+      description: 'Applications for Cohort 2 are now open. This will take about 4 minutes.',
+      content: (
+        <div className="flex flex-col items-center md:items-start gap-8">
+          <div className="flex -space-x-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="w-12 h-12 rounded-full border-4 border-background bg-muted overflow-hidden transition-transform hover:scale-110">
+                <img src={`https://i.pravatar.cc/100?img=${i + 10}`} alt="alumni" />
+              </div>
+            ))}
+            <div className="w-12 h-12 rounded-full border-4 border-background bg-primary flex items-center justify-center text-[10px] font-black text-white">
+              +140
+            </div>
+          </div>
+          <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-primary" /> Join 140+ builders in our community
+          </p>
+          <div className="flex gap-4">
+            <Link href="/">
+              <Button variant="outline" className="rounded-full px-8 h-14 font-bold border-2 hover:bg-muted transition-all">
+                Explore Website
+              </Button>
+            </Link>
+          </div>
+        </div>
+      )
+    },
+    // 1: Name
+    {
+      id: 'name',
+      title: 'First, what is your name?',
+      description: 'Your identity in our cohort.',
+      content: (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl">
+          <div className="space-y-3">
+            <Label className="text-sm font-bold uppercase tracking-widest opacity-60">First Name</Label>
+            <Input
+              autoFocus
+              placeholder="Elon"
+              value={formData.firstName}
+              onChange={e => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
+              className={inputStyles}
+              onKeyDown={handleKeyDown}
+            />
+            {errors.firstName && <p className="text-red-500 text-sm font-bold">{errors.firstName}</p>}
+          </div>
+          <div className="space-y-3">
+            <Label className="text-sm font-bold uppercase tracking-widest opacity-60">Last Name</Label>
+            <Input
+              placeholder="Musk"
+              value={formData.lastName}
+              onChange={e => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
+              className={inputStyles}
+              onKeyDown={handleKeyDown}
+            />
+            {errors.lastName && <p className="text-red-500 text-sm font-bold">{errors.lastName}</p>}
+          </div>
+        </div>
+      )
+    },
+    // 2: Contact
+    {
+      id: 'contact',
+      title: 'Where can we reach you?',
+      description: 'Primary channels for communication.',
+      content: (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl">
+          <div className="space-y-3">
+            <Label className="text-sm font-bold uppercase tracking-widest opacity-60">Email</Label>
+            <Input
+              autoFocus
+              type="email"
+              placeholder="elon@mars.com"
+              value={formData.email}
+              onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
+              className={inputStyles}
+              onKeyDown={handleKeyDown}
+            />
+            {errors.email && <p className="text-red-500 text-sm font-bold">{errors.email}</p>}
+          </div>
+          <div className="space-y-3">
+            <Label className="text-sm font-bold uppercase tracking-widest opacity-60">Telegram @</Label>
+            <Input
+              placeholder="mars_elon"
+              value={formData.telegramUsername}
+              onChange={e => setFormData(prev => ({ ...prev, telegramUsername: e.target.value }))}
+              className={inputStyles}
+              onKeyDown={handleKeyDown}
+            />
+            {errors.telegramUsername && <p className="text-red-500 text-sm font-bold">{errors.telegramUsername}</p>}
+          </div>
+        </div>
+      )
+    },
+    // 3: Socials
+    {
+      id: 'socials',
+      title: 'Show us your digital footprint.',
+      description: 'We want to see what you have built and how you contribute.',
+      content: (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl">
+          <div className="space-y-3">
+            <Label className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest opacity-60">
+              <Github className="w-4 h-4" /> GitHub URL
+            </Label>
+            <Input
+              autoFocus
+              placeholder="github.com/username"
+              value={formData.githubUrl}
+              onChange={e => setFormData(prev => ({ ...prev, githubUrl: e.target.value }))}
+              className={inputStyles}
+              onKeyDown={handleKeyDown}
+            />
+            {errors.githubUrl && <p className="text-red-500 text-sm font-bold">{errors.githubUrl}</p>}
+          </div>
+          <div className="space-y-3">
+            <Label className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest opacity-60">
+              <Linkedin className="w-4 h-4" /> LinkedIn Profile
+            </Label>
+            <Input
+              placeholder="linkedin.com/in/username"
+              value={formData.linkedinUrl}
+              onChange={e => setFormData(prev => ({ ...prev, linkedinUrl: e.target.value }))}
+              className={inputStyles}
+              onKeyDown={handleKeyDown}
+            />
+            {errors.linkedinUrl && <p className="text-red-500 text-sm font-bold">{errors.linkedinUrl}</p>}
+          </div>
+        </div>
+      )
+    },
+    // 4: Current Status
+    {
+      id: 'status',
+      title: 'What is your current focus?',
+      description: 'Helps me understand how to best support your rhythm.',
+      content: (
+        <div className="grid grid-cols-1 gap-4 w-full max-w-lg">
+          {statusOptions.map((option) => (
+            <button
+              key={option.value}
+              onClick={() => {
+                setFormData(prev => ({ ...prev, currentStatus: option.value }));
+                setTimeout(nextStep, 200);
+              }}
+              className={cn(
+                "group relative flex items-center justify-between p-6 rounded-2xl border-2 transition-all duration-300 text-left",
+                formData.currentStatus === option.value
+                  ? "border-primary bg-primary/5 shadow-lg scale-[1.02]"
+                  : "border-border/50 hover:border-primary/30 hover:bg-muted/50"
+              )}
+            >
+              <span className="text-xl font-bold">{option.label}</span>
+              <div className={cn(
+                "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all",
+                formData.currentStatus === option.value ? "border-primary bg-primary" : "border-border"
+              )}>
+                {formData.currentStatus === option.value && <div className="w-2 h-2 rounded-full bg-white" />}
+              </div>
+            </button>
+          ))}
+          {errors.currentStatus && <p className="text-red-500 text-sm font-bold text-center mt-2">{errors.currentStatus}</p>}
+        </div>
+      )
+    },
+    // 5: Experience
+    {
+      id: 'experience',
+      title: 'Choose your specializations.',
+      description: 'Select all that apply to you.',
+      content: (
+        <div className="w-full max-w-3xl space-y-4">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+            {experienceOptions.map((option) => {
+              const isSelected = formData.experience.includes(option.value);
+              return (
+                <button
+                  key={option.value}
+                  onClick={() => {
+                    const updated = isSelected
+                      ? formData.experience.filter(e => e !== option.value)
+                      : [...formData.experience, option.value];
+                    setFormData(prev => ({ ...prev, experience: updated }));
+                  }}
+                  className={cn(
+                    "p-6 rounded-2xl border-2 transition-all duration-300 text-center space-y-2",
+                    isSelected
+                      ? "border-primary bg-primary/5 text-primary scale-[1.05]"
+                      : "border-border/50 hover:border-primary/30"
+                  )}
+                >
+                  <span className="text-lg font-bold block">{option.label}</span>
+                </button>
+              );
+            })}
+          </div>
+          {errors.experience && <p className="text-red-500 text-sm font-bold text-center">{errors.experience}</p>}
+        </div>
+      )
+    },
+    // 6: Project
+    {
+      id: 'project',
+      title: 'Brag a little. Tell us about a project you are proud of.',
+      description: 'Describe the stack, your role, and provide a link.',
+      content: (
+        <div className="w-full max-w-3xl space-y-6">
+          <div className="space-y-3">
+            <Label className="text-sm font-bold uppercase tracking-widest opacity-60">Project Story</Label>
+            <Textarea
+              autoFocus
+              placeholder="I built a distributed system for..."
+              value={formData.projectDescription}
+              onChange={e => setFormData(prev => ({ ...prev, projectDescription: e.target.value }))}
+              className={textareaStyles}
+            />
+            {errors.projectDescription && <p className="text-red-500 text-sm font-bold">{errors.projectDescription}</p>}
+          </div>
+          <div className="space-y-3">
+            <Label className="text-sm font-bold uppercase tracking-widest opacity-60">Repo or Demo Link</Label>
+            <Input
+              placeholder="github.com/..."
+              value={formData.projectLink}
+              onChange={e => setFormData(prev => ({ ...prev, projectLink: e.target.value }))}
+              className={inputStyles}
+              onKeyDown={handleKeyDown}
+            />
+            {errors.projectLink && <p className="text-red-500 text-sm font-bold">{errors.projectLink}</p>}
+          </div>
+        </div>
+      )
+    },
+    // 7: Challenge
+    {
+      id: 'challenge',
+      title: 'Describe a technical hurdle you solved.',
+      description: 'We care about your thought process and problem-solving skills.',
+      content: (
+        <div className="w-full max-w-3xl space-y-3">
+          <Label className="text-sm font-bold uppercase tracking-widest opacity-60">The Challenge</Label>
+          <Textarea
+            autoFocus
+            placeholder="There was a race condition in the..."
+            value={formData.technicalChallenge}
+            onChange={e => setFormData(prev => ({ ...prev, technicalChallenge: e.target.value }))}
+            className={textareaStyles}
+          />
+          {errors.technicalChallenge && <p className="text-red-500 text-sm font-bold">{errors.technicalChallenge}</p>}
+        </div>
+      )
+    },
+    // 8: Motivation
+    {
+      id: 'motivation',
+      title: 'Why The Side Project (TSP)?',
+      description: 'What do you hope to gain, and what will you bring to the cohort?',
+      content: (
+        <div className="w-full max-w-3xl space-y-3">
+          <Label className="text-sm font-bold uppercase tracking-widest opacity-60">Your Motivation</Label>
+          <Textarea
+            autoFocus
+            placeholder="I want to level up my system design skills and build..."
+            value={formData.whyJoin}
+            onChange={e => setFormData(prev => ({ ...prev, whyJoin: e.target.value }))}
+            className={textareaStyles}
+          />
+          {errors.whyJoin && <p className="text-red-500 text-sm font-bold">{errors.whyJoin}</p>}
+        </div>
+      )
+    },
+    // 9: Commitment
+    {
+      id: 'commitment',
+      title: 'Final checks. Can you commit?',
+      description: 'The program is high-intensity and requires 3 months of focus.',
+      content: (
+        <div className="w-full max-w-lg space-y-12">
+          <div
+            onClick={() => setFormData(prev => ({ ...prev, canCommit: !prev.canCommit }))}
+            className={cn(
+              "flex items-center gap-6 p-6 rounded-2xl border-2 transition-all duration-300 cursor-pointer",
+              formData.canCommit ? "border-primary bg-primary/5 scale-[1.02]" : "border-border/50 hover:bg-muted/50"
+            )}
+          >
+            <div className={cn(
+              "w-10 h-10 rounded-xl flex items-center justify-center transition-all",
+              formData.canCommit ? "bg-primary text-white" : "bg-muted text-transparent"
+            )}>
+              <CheckCircle className="w-6 h-6" />
+            </div>
+            <div>
+              <p className="text-xl font-bold">Yes, I commit to 3 months.</p>
+              <p className="text-sm text-muted-foreground font-medium">Program duration: Mar 2026 - May 2026</p>
+            </div>
+          </div>
 
-    setFormData(prev => ({ ...prev, coursesTaken: newCourses }));
-    setOtherCoursesEnabled(newCourses.includes('other'));
-
-    if (!newCourses.includes('other')) {
-      setFormData(prev => ({ ...prev, otherCourses: '' }));
+          <div className="space-y-6">
+            <Label className="text-sm font-bold uppercase tracking-widest opacity-60">Hours per week available</Label>
+            <div className="grid grid-cols-1 gap-3">
+              {hoursOptions.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => setFormData(prev => ({ ...prev, hoursPerWeek: option.value }))}
+                  className={cn(
+                    "p-4 rounded-xl border-2 transition-all duration-300 text-left font-bold",
+                    formData.hoursPerWeek === option.value
+                      ? "border-primary bg-primary/5 scale-[1.02]"
+                      : "border-border/50 hover:border-primary/30"
+                  )}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+            {errors.hoursPerWeek && <p className="text-red-500 text-sm font-bold">{errors.hoursPerWeek}</p>}
+          </div>
+          {errors.canCommit && <p className="text-red-500 text-center font-bold">{errors.canCommit}</p>}
+        </div>
+      )
     }
+  ];
+
+  const totalSteps = steps.length;
+
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        if (e.shiftKey) {
+          if (currentStep > 0) {
+            e.preventDefault();
+            prevStep();
+          }
+        } else {
+          if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+            if (e.target instanceof HTMLTextAreaElement) return;
+            e.preventDefault();
+          }
+
+          if (currentStep < totalSteps - 1) {
+            nextStep();
+          } else if (currentStep === totalSteps - 1) {
+            handleSubmit();
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, [currentStep, formData, totalSteps]);
+
+  const progress = ((currentStep + 1) / totalSteps) * 100;
+
+  const variants = {
+    enter: (direction: number) => ({
+      y: direction > 0 ? 100 : -100,
+      opacity: 0,
+    }),
+    center: {
+      y: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      y: direction < 0 ? 100 : -100,
+      opacity: 0,
+    }),
   };
 
   if (submitStatus === 'success') {
     return (
-      <EtherealShadow variant="subtle">
-        <Card className="border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950">
-          <CardContent className="pt-6">
-            <div className="text-center space-y-4">
-              <CheckCircle className="w-16 h-16 text-green-600 dark:text-green-400 mx-auto" />
-              <div>
-                <h3 className="text-2xl font-bold text-green-800 dark:text-green-200 mb-2">
-                  Application Submitted!
-                </h3>
-                <p className="text-green-700 dark:text-green-300 mb-4">
-                  Thanks! We&apos;ll review and get back to you soon.
-                </p>
-                <p className="text-sm text-green-600 dark:text-green-400">
-                  Check your email and Telegram for updates.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </EtherealShadow>
+      <div className="text-center space-y-12 py-20 px-6 max-w-2xl mx-auto">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1, rotate: 360 }}
+          transition={{ type: "spring", stiffness: 260, damping: 20 }}
+          className="w-32 h-32 bg-primary rounded-full flex items-center justify-center mx-auto shadow-[0_0_80px_rgba(var(--primary-rgb),0.4)]"
+        >
+          <CheckCircle className="w-16 h-16 text-primary-foreground" />
+        </motion.div>
+
+        <div className="space-y-6">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-5xl md:text-7xl font-black tracking-tight"
+          >
+            Application <br /> <span className="text-primary">Received.</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="text-xl text-muted-foreground font-medium leading-relaxed"
+          >
+            We&apos;ve added your portal to our review queue. <br />
+            Keep an eye on your Telegram — we usually reach out <br />
+            within 48 hours to schedule a deep-dive call.
+          </motion.p>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+        >
+          <Link href="/">
+            <Button size="lg" className="rounded-full px-12 h-16 text-xl font-bold shadow-xl hover:shadow-primary/20 transition-all hover:scale-105">
+              Back to Home
+            </Button>
+          </Link>
+        </motion.div>
+
+        {/* Confetti-like elements */}
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: [0, 1, 0], scale: [0, 1.5, 0], x: (i - 2.5) * 100, y: (i % 2 === 0 ? -1 : 1) * 50 }}
+            transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
+            className="absolute left-1/2 top-1/2 -z-10 w-4 h-4 rounded-full bg-primary/20 backdrop-blur-sm"
+          />
+        ))}
+      </div>
     );
   }
 
   return (
-    <StaggerContainer
-      variants={staggerVariants}
-      initial="hidden"
-      animate="visible"
-      className="space-y-8"
-    >
-      <form onSubmit={handleSubmit} className="space-y-8" noValidate>
-      {submitStatus === 'error' && (
-        <EtherealShadow variant="subtle">
-          <Card className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950">
-            <CardContent className="pt-6">
-              <div className="flex items-center space-x-3">
-                <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
-                <div>
-                  <h4 className="text-red-800 dark:text-red-200 font-medium">Submission Error</h4>
-                  <p className="text-red-700 dark:text-red-300 text-sm">
-                    There was an error submitting your application. Please try again.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </EtherealShadow>
-      )}
+    <div className="relative min-h-[70vh] flex flex-col justify-between py-10">
+      {/* Dynamic Ambient Blur */}
+      <motion.div
+        animate={{
+          x: (currentStep % 3 - 1) * 100,
+          y: (Math.floor(currentStep / 3) - 1) * 100,
+          opacity: [0.1, 0.2, 0.1]
+        }}
+        transition={{ duration: 4, repeat: Infinity, repeatType: "reverse" }}
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none"
+      />
 
-      {/* Personal Information */}
-      <SlideUp variants={slideUpVariants}>
-        <EtherealShadow variant="subtle">
-          <Card>
-        <CardHeader>
-          <CardTitle>Personal Information</CardTitle>
-          <CardDescription>Tell us about yourself</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label htmlFor="firstName">
-                First Name <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="firstName"
-                type="text"
-                value={formData.firstName}
-                onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
-                className={errors.firstName ? "border-red-500" : ""}
-                required
-              />
-              {errors.firstName && (
-                <p className="text-sm text-red-500">{errors.firstName}</p>
-              )}
+      {/* Progress Bar */}
+      <div className="fixed top-0 left-0 w-full h-1.5 bg-muted z-[110]">
+        <motion.div
+          className="h-full bg-primary"
+          initial={{ width: 0 }}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        />
+      </div>
+
+      {/* Step Metadata */}
+      <div className="flex items-center justify-between mb-12">
+        <span className="text-sm font-black text-primary uppercase tracking-[0.3em]">
+          Step {String(currentStep + 1).padStart(2, '0')} / {String(totalSteps).padStart(2, '0')}
+        </span>
+      </div>
+
+      {/* Form Content */}
+      <div className="flex-1 flex flex-col items-center justify-center max-w-4xl mx-auto w-full">
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={currentStep}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full space-y-12"
+          >
+            <div className="space-y-4 text-center md:text-left">
+              <h2 className="text-3xl md:text-5xl font-black text-foreground tracking-tight leading-tight">
+                {steps[currentStep].title}
+              </h2>
+              <p className="text-xl text-muted-foreground font-medium">
+                {steps[currentStep].description}
+              </p>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="lastName">
-                Last Name <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="lastName"
-                type="text"
-                value={formData.lastName}
-                onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
-                className={errors.lastName ? "border-red-500" : ""}
-                required
-              />
-              {errors.lastName && (
-                <p className="text-sm text-red-500">{errors.lastName}</p>
-              )}
+            <div className="flex justify-center md:justify-start pt-4">
+              {steps[currentStep].content}
             </div>
-          </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="email">
-              Email <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-              className={errors.email ? "border-red-500" : ""}
-              required
-            />
-            {errors.email && (
-              <p className="text-sm text-red-500">{errors.email}</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="telegram">
-              Telegram Username <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="telegram"
-              type="text"
-              placeholder="@username"
-              value={formData.telegramUsername}
-              onChange={(e) => setFormData(prev => ({ ...prev, telegramUsername: e.target.value }))}
-              className={errors.telegramUsername ? "border-red-500" : ""}
-              required
-            />
-            {errors.telegramUsername && (
-              <p className="text-sm text-red-500">{errors.telegramUsername}</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="phone">Phone (optional)</Label>
-            <Input
-              id="phone"
-              type="tel"
-              value={formData.phone || ''}
-              onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-            />
-          </div>
-        </CardContent>
-        </Card>
-        </EtherealShadow>
-      </SlideUp>
-
-      {/* Team Information */}
-      <SlideUp variants={slideUpVariants}>
-        <EtherealShadow variant="subtle">
-          <Card>
-        <CardHeader>
-          <CardTitle>Team Information</CardTitle>
-          <CardDescription>Do you have a team already?</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-3">
-            <Label>Do you already have a team? <span className="text-red-500">*</span></Label>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="hasTeam-yes"
-                  checked={formData.hasTeam === true}
-                  onCheckedChange={() => setFormData(prev => ({ ...prev, hasTeam: true }))}
-                />
-                <Label htmlFor="hasTeam-yes" className="cursor-pointer">Yes</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="hasTeam-no"
-                  checked={formData.hasTeam === false}
-                  onCheckedChange={() => setFormData(prev => ({ ...prev, hasTeam: false }))}
-                />
-                <Label htmlFor="hasTeam-no" className="cursor-pointer">No</Label>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-        </Card>
-        </EtherealShadow>
-      </SlideUp>
-
-      {/* Project Information */}
-      <SlideUp variants={slideUpVariants}>
-        <EtherealShadow variant="subtle">
-          <Card>
-        <CardHeader>
-          <CardTitle>Project Information</CardTitle>
-          <CardDescription>Tell us about your experience</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="projectDescription">
-              Tell me about a project you built <span className="text-red-500">*</span>
-            </Label>
-            <Textarea
-              id="projectDescription"
-              placeholder="Project description, tech stack, challenges..."
-              value={formData.projectDescription}
-              onChange={(e) => setFormData(prev => ({ ...prev, projectDescription: e.target.value }))}
-              className={errors.projectDescription ? "border-red-500" : ""}
-              rows={4}
-              required
-            />
-            {errors.projectDescription && (
-              <p className="text-sm text-red-500">{errors.projectDescription}</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="projectLink">Project Link (optional)</Label>
-            <Input
-              id="projectLink"
-              type="url"
-              placeholder="GitHub, demo, or portfolio link"
-              value={formData.projectLink || ''}
-              onChange={(e) => setFormData(prev => ({ ...prev, projectLink: e.target.value }))}
-            />
-          </div>
-        </CardContent>
-        </Card>
-        </EtherealShadow>
-      </SlideUp>
-
-      {/* Experience */}
-      <SlideUp variants={slideUpVariants}>
-        <EtherealShadow variant="subtle">
-          <Card>
-        <CardHeader>
-          <CardTitle>Experience</CardTitle>
-          <CardDescription>What&apos;s your background?</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-3">
-            <Label>Your previous experience</Label>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {experienceOptions.map((option) => (
-                <div key={option.value} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={`exp-${option.value}`}
-                    checked={formData.experience.includes(option.value)}
-                    onCheckedChange={(checked) => handleExperienceChange(option.value, !!checked)}
-                  />
-                  <Label htmlFor={`exp-${option.value}`} className="cursor-pointer">
-                    {option.label}
-                  </Label>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="aboutYou">
-              What should I know about you? <span className="text-red-500">*</span>
-            </Label>
-            <Textarea
-              id="aboutYou"
-              placeholder="Background, interests, goals..."
-              value={formData.aboutYou}
-              onChange={(e) => setFormData(prev => ({ ...prev, aboutYou: e.target.value }))}
-              className={errors.aboutYou ? "border-red-500" : ""}
-              rows={4}
-              required
-            />
-            {errors.aboutYou && (
-              <p className="text-sm text-red-500">{errors.aboutYou}</p>
-            )}
-          </div>
-        </CardContent>
-        </Card>
-        </EtherealShadow>
-      </SlideUp>
-
-      {/* Commitment */}
-      <SlideUp variants={slideUpVariants}>
-        <EtherealShadow variant="subtle">
-          <Card>
-        <CardHeader>
-          <CardTitle>Commitment</CardTitle>
-          <CardDescription>Can you commit to the program?</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-3">
-            <Label>Are you able to commit to 3 months? <span className="text-red-500">*</span></Label>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="canCommit-yes"
-                  checked={formData.canCommit === true}
-                  onCheckedChange={() => setFormData(prev => ({ ...prev, canCommit: true }))}
-                />
-                <Label htmlFor="canCommit-yes" className="cursor-pointer">Yes</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="canCommit-no"
-                  checked={formData.canCommit === false}
-                  onCheckedChange={() => setFormData(prev => ({ ...prev, canCommit: false }))}
-                />
-                <Label htmlFor="canCommit-no" className="cursor-pointer">No</Label>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="hoursPerWeek">
-              Hours per week available <span className="text-red-500">*</span>
-            </Label>
-            <Select
-              value={formData.hoursPerWeek}
-              onValueChange={(value) => setFormData(prev => ({ ...prev, hoursPerWeek: value }))}
-            >
-              <SelectTrigger className={errors.hoursPerWeek ? "border-red-500" : ""}>
-                <SelectValue placeholder="Select hours per week" />
-              </SelectTrigger>
-              <SelectContent>
-                {hoursOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors.hoursPerWeek && (
-              <p className="text-sm text-red-500">{errors.hoursPerWeek}</p>
-            )}
-          </div>
-        </CardContent>
-        </Card>
-        </EtherealShadow>
-      </SlideUp>
-
-      {/* Education */}
-      <SlideUp variants={slideUpVariants}>
-        <EtherealShadow variant="subtle">
-          <Card>
-        <CardHeader>
-          <CardTitle>Education</CardTitle>
-          <CardDescription>What&apos;s your learning background?</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-3">
-            <Label>Courses taken</Label>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {[...coursesOptions, { value: 'other', label: 'Other' }].map((option) => (
-                <div key={option.value} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={`course-${option.value}`}
-                    checked={formData.coursesTaken.includes(option.value)}
-                    onCheckedChange={(checked) => handleCoursesChange(option.value, !!checked)}
-                  />
-                  <Label htmlFor={`course-${option.value}`} className="cursor-pointer">
-                    {option.label}
-                  </Label>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {otherCoursesEnabled && (
-            <div className="space-y-2">
-              <Label htmlFor="otherCourses">Other courses</Label>
-              <Input
-                id="otherCourses"
-                type="text"
-                placeholder="Other courses or certifications..."
-                value={formData.otherCourses || ''}
-                onChange={(e) => setFormData(prev => ({ ...prev, otherCourses: e.target.value }))}
-              />
+      {/* Footer Navigation */}
+      <div className="mt-16 flex items-center justify-between gap-6">
+        <div className="flex items-center gap-4">
+          {currentStep > 0 && (
+            <div className="flex flex-col items-center">
+              <Button
+                variant="ghost"
+                size="lg"
+                onClick={prevStep}
+                className="rounded-full px-8 h-16 text-lg font-bold hover:bg-muted/50 transition-all group border-2 border-transparent"
+              >
+                <ArrowLeft className="mr-2 w-5 h-5 group-hover:-translate-x-1 transition-transform" /> Back
+              </Button>
+              <span className="text-[10px] font-bold text-muted-foreground/40 mt-1 hidden md:block uppercase tracking-widest">
+                Shift + Enter
+              </span>
             </div>
           )}
-        </CardContent>
-        </Card>
-        </EtherealShadow>
-      </SlideUp>
 
-      {/* Submit Button */}
-      <SlideUp variants={slideUpVariants}>
-        <EtherealShadow variant="subtle">
-          <Card>
-        <CardContent className="pt-6">
+          <div className="hidden md:flex flex-col items-center">
+            <div className="flex items-center gap-3 text-muted-foreground/60 p-4">
+              <div className="px-2 py-1 rounded bg-muted text-[10px] font-bold border border-border">ENTER</div>
+              <span className="text-xs font-bold uppercase tracking-widest">to continue</span>
+            </div>
+            <div className="h-[21px]" /> {/* Spacer for symmetry with Back hint */}
+          </div>
+        </div>
+
+        {currentStep === totalSteps - 1 ? (
           <Button
-            type="submit"
             size="lg"
+            onClick={handleSubmit}
             disabled={isSubmitting}
-            className="w-full"
+            className="rounded-full px-12 h-16 text-lg font-black shadow-xl hover:shadow-primary/20 transition-all hover:scale-[1.03] active:scale-95 group"
           >
             {isSubmitting ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Submitting...
-              </>
+              <Loader2 className="w-6 h-6 animate-spin" />
             ) : (
-              'Submit Application'
+              <>
+                Final Submit <Send className="ml-2 w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </>
             )}
           </Button>
-        </CardContent>
-        </Card>
-        </EtherealShadow>
-      </SlideUp>
-      </form>
-    </StaggerContainer>
+        ) : (
+          <Button
+            size="lg"
+            onClick={nextStep}
+            className="rounded-full px-12 h-16 text-lg font-black bg-foreground text-background hover:bg-foreground/90 transition-all hover:scale-[1.03] active:scale-95 group shadow-lg"
+          >
+            {currentStep === 0 ? 'Start Application' : 'Continue'} <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </Button>
+        )}
+      </div>
+
+      {submitStatus === 'error' && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 flex items-center justify-center gap-3 font-bold"
+        >
+          <AlertCircle className="w-5 h-5" />
+          There was an error saving your response. Please try again.
+        </motion.div>
+      )}
+    </div>
   );
 };

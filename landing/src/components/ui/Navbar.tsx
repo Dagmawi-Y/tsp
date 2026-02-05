@@ -69,7 +69,7 @@ export function Navbar({ offsetTop = false }: NavbarProps) {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className={cn(
         "fixed left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300",
-        offsetTop ? "top-14 md:top-11" : "top-6"
+        offsetTop ? "top-16 md:top-14" : "top-6"
       )}
       role="navigation"
       aria-label="Main navigation"

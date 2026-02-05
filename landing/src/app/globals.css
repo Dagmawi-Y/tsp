@@ -201,10 +201,9 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Focus styles for accessibility */
+/* Focus styles for accessibility - removed global black ring as requested */
 *:focus-visible {
-  outline: 2px solid var(--color-black);
-  outline-offset: 2px;
+  outline: none;
 }
 
 /* Screen reader only class */
@@ -266,9 +265,9 @@ body {
 }
 
 /* Better button and interactive element styling */
-button, 
-input, 
-select, 
+button,
+input,
+select,
 textarea {
   font-family: inherit;
 }
@@ -313,7 +312,12 @@ legend {
 }
 
 /* Enhanced typography styles */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 700;
   letter-spacing: -0.025em;
   line-height: 1.2;
@@ -329,7 +333,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Improved text rendering */
-p, span, div {
+p,
+span,
+div {
   text-rendering: optimizeLegibility;
 }
 
@@ -409,7 +415,7 @@ a:focus {
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-none;
   }
   body {
     @apply bg-background text-foreground;

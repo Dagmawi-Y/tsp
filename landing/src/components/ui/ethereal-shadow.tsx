@@ -8,11 +8,11 @@ interface EtherealShadowProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: "default" | "subtle" | "intense"
 }
 
-export function EtherealShadow({ 
-  children, 
-  className, 
+export function EtherealShadow({
+  children,
+  className,
   variant = "default",
-  ...props 
+  ...props
 }: EtherealShadowProps) {
   const variants = {
     default: "shadow-[0_0_50px_rgba(0,0,0,0.1)] dark:shadow-[0_0_50px_rgba(255,255,255,0.05)]",
@@ -23,7 +23,7 @@ export function EtherealShadow({
   return (
     <div
       className={cn(
-        "relative",
+        "relative h-full",
         variants[variant],
         "before:absolute before:inset-0 before:rounded-inherit before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-50 dark:before:from-white/5 dark:before:to-transparent",
         "after:absolute after:inset-0 after:rounded-inherit after:bg-gradient-to-tl after:from-black/5 after:to-transparent after:opacity-30 dark:after:from-white/10 dark:after:to-transparent",
@@ -31,7 +31,7 @@ export function EtherealShadow({
       )}
       {...props}
     >
-      <div className="relative z-10">
+      <div className="relative z-10 h-full">
         {children}
       </div>
     </div>

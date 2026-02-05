@@ -102,14 +102,14 @@ export default function PrevCohortsPage() {
 
           {/* Projects Grid */}
           <div className={`grid gap-8 ${filteredProjects.length === 1
-              ? 'grid-cols-1 max-w-md mx-auto'
-              : filteredProjects.length === 2
-                ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto'
-                : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+            ? 'grid-cols-1 max-w-md mx-auto'
+            : filteredProjects.length === 2
+              ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto'
+              : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
             }`}>
             {filteredProjects.map(project => (
               <EtherealShadow key={project.id} variant="subtle">
-                <Card className="group hover:shadow-lg transition-all duration-300">
+                <Card className="group hover:shadow-lg transition-all duration-300 h-full flex flex-col">
 
                   {/* single image */}
                   <div className='relative w-full aspect-video rounded-t-lg overflow-hidden'>
@@ -145,16 +145,18 @@ export default function PrevCohortsPage() {
 
 
 
-                  <CardContent className="space-y-4">
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map(tech => (
-                        <span key={tech} className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md font-medium">
-                          {tech}
-                        </span>
-                      ))}
+                  <CardContent className="space-y-4 flex-1 flex flex-col">
+                    <div className="flex-1 space-y-4">
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {project.description}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {project.technologies.map(tech => (
+                          <span key={tech} className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md font-medium">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                     <div className="flex items-center gap-3 pt-2">
                       {project.githubUrl && (

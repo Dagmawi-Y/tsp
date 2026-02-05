@@ -15,14 +15,14 @@ export default function HowItWorksSection() {
     {
       number: "02",
       title: "Construction",
-      description: "Across 3 intensive months, you'll architecture and build a production-grade product with 1-on-1 expert guidance.",
-      details: ["Weekly sprints", "Code reviews", "System design"]
+      description: "Across 3 intensive months, you'll architect and build a polished product with direct 1-on-1 guidance.",
+      details: ["Weekly sprints", "Hands-on help", "Pragmatic design"]
     },
     {
       number: "03",
       title: "Showcase",
-      description: "Present your work to the community and industry leaders. Graduate with a portfolio that speaks for itself.",
-      details: ["Demo day", "Alumni network", "Career launch"]
+      description: "Share your work with the community and fellow builders. Graduate with a project that showcases your true potential.",
+      details: ["Community showcase", "Active alumni", "Better portfolio"]
     }
   ];
 
@@ -52,10 +52,10 @@ export default function HowItWorksSection() {
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
             {steps.map((step, index) => (
-              <SlideUp key={index} variants={slideUpVariants} className="relative group">
+              <SlideUp key={index} variants={slideUpVariants} className="relative group h-full">
                 <EtherealShadow variant="subtle" className="h-full">
-                  <Card className="h-full border-0 bg-card/60 backdrop-blur-md ring-1 ring-border/50 transition-all duration-500 hover:ring-primary/30 overflow-hidden">
-                    <CardContent className="p-8 space-y-8">
+                  <Card className="h-full flex flex-col border-0 bg-card/60 backdrop-blur-md ring-1 ring-border/50 transition-all duration-500 hover:ring-primary/30 overflow-hidden">
+                    <CardContent className="p-8 space-y-8 flex-1">
                       {/* Number Indicator */}
                       <div className="flex items-center justify-between">
                         <span className="text-5xl font-black text-primary/10 group-hover:text-primary/20 transition-colors duration-500">

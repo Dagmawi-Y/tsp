@@ -3,16 +3,16 @@ export interface ApplicationData {
   lastName: string;
   email: string;
   telegramUsername: string;
-  phone?: string;
-  hasTeam: boolean;
+  githubUrl?: string;
+  linkedinUrl?: string;
+  currentStatus: string; // Student, Professional, Self-taught, etc.
   projectDescription: string;
   projectLink?: string;
+  technicalChallenge?: string; // How they solve problems
   experience: string[];
-  aboutYou: string;
+  whyJoin: string; // Motivation
   canCommit: boolean;
   hoursPerWeek: string;
-  coursesTaken: string[];
-  otherCourses?: string;
 }
 
 export interface Project {

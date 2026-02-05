@@ -17,7 +17,7 @@ export const ApplySection: React.FC = () => {
             Apply for Cohort 2
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-medium">
-            Ready to build something amazing? Join our next cohort of aspiring developers.
+            Ready to build something meaningful? Join a small, focused group of builders and ship your project.
           </p>
         </FadeIn>
 
@@ -28,7 +28,7 @@ export const ApplySection: React.FC = () => {
           viewport={{ once: true, margin: "-100px" }}
           className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12"
         >
-          <SlideUp variants={slideUpVariants}>
+          <SlideUp variants={slideUpVariants} className="h-full">
             <EtherealShadow variant="subtle">
               <Card className="text-center h-full">
                 <CardHeader>
@@ -42,7 +42,7 @@ export const ApplySection: React.FC = () => {
             </EtherealShadow>
           </SlideUp>
 
-          <SlideUp variants={slideUpVariants}>
+          <SlideUp variants={slideUpVariants} className="h-full">
             <EtherealShadow variant="subtle">
               <Card className="text-center h-full">
                 <CardHeader>
@@ -56,7 +56,7 @@ export const ApplySection: React.FC = () => {
             </EtherealShadow>
           </SlideUp>
 
-          <SlideUp variants={slideUpVariants}>
+          <SlideUp variants={slideUpVariants} className="h-full">
             <EtherealShadow variant="subtle">
               <Card className="text-center h-full">
                 <CardHeader>
@@ -71,7 +71,7 @@ export const ApplySection: React.FC = () => {
           </SlideUp>
         </StaggerContainer>
 
-        <FadeIn 
+        <FadeIn
           variants={fadeInVariants}
           initial="hidden"
           whileInView="visible"
@@ -80,21 +80,21 @@ export const ApplySection: React.FC = () => {
         >
           <EtherealShadow>
             <Card className="max-w-2xl mx-auto">
-            <CardHeader>
-              <CardTitle className="text-2xl">Ready to Start?</CardTitle>
-              <CardDescription className="text-lg">
-                The application takes about 5 minutes to complete. We&apos;ll review it and get back to you within a week.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link href="/apply">
-                <Button size="lg" className="w-full md:w-auto">
-                  Start Application
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+              <CardHeader>
+                <CardTitle className="text-2xl">Ready to Start?</CardTitle>
+                <CardDescription className="text-lg">
+                  The application takes about 5 minutes to complete. We&apos;ll review it and get back to you within a week.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link href="/apply">
+                  <Button size="lg" className="w-full md:w-auto">
+                    Start Application
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
           </EtherealShadow>
         </FadeIn>
       </div>
