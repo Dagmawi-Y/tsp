@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '../ui';
+import { APPLICATION_OPEN } from '@/lib/config';
 import { FadeIn, SlideUp, StaggerContainer, fadeInVariants, slideUpVariants, staggerVariants } from '../ui/motion';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -115,9 +116,9 @@ export function HeroSection() {
                 variant="default"
                 size="lg"
                 className="w-full sm:w-auto rounded-xl px-10 h-16 text-lg font-bold transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_20px_40px_-15px_rgba(var(--primary-rgb),0.3)] shadow-lg active:scale-95 group"
-                aria-label="Apply for Cohort 2"
+                aria-label={APPLICATION_OPEN ? 'Apply for Cohort 2' : 'Coming Soon'}
               >
-                Apply for Cohort 2
+                {APPLICATION_OPEN ? 'Apply for Cohort 2' : 'Coming Soon'}
                 <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Link>
