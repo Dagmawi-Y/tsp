@@ -15,7 +15,7 @@ export function Footer() {
               className="rounded-lg"
             />
             <div className="text-sm text-muted-foreground">
-              TSP © 2025
+              TSP © {new Date().getFullYear()}
             </div>
           </div>
 
