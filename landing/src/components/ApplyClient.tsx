@@ -34,7 +34,7 @@ function ComingSoon() {
                 Applications for Cohort 2 will open shortly.
             </p>
             <p className="text-sm text-muted-foreground/60 mb-12 font-medium">
-                Stay tuned — we&apos;ll announce it everywhere.
+                Stay tuned.
             </p>
 
             <Link href="/">
