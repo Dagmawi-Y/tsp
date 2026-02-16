@@ -15,7 +15,7 @@ export function Footer() {
               className="rounded-lg"
             />
             <div className="text-sm text-muted-foreground">
-              TSP © 2025 | Made by Daggy
+              TSP © 2025
             </div>
           </div>
 
@@ -30,7 +30,7 @@ export function Footer() {
               Telegram
             </a>
             <a
-              href="mailto:daggy@example.com"
+              href="mailto:dagmawi.inbox@gmail.com"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
             >
               Email
