@@ -196,10 +196,8 @@ export default function PrevCohortsPage() {
                             </Button>
                           )}
                           {project.liveUrl && (
-                            <Button variant="default" size="sm" asChild className="rounded-xl font-bold gap-2 flex-1 shadow-md">
-                              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="w-4 h-4" /> Live Demo
-                              </a>
+                            <Button variant="default" size="sm" disabled className="rounded-xl font-bold gap-2 flex-1 shadow-md opacity-50 cursor-not-allowed">
+                              <ExternalLink className="w-4 h-4" /> Live Demo
                             </Button>
                           )}
                         </div>

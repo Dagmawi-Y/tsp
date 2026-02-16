@@ -104,14 +104,12 @@ export const PreviousCohortsSection: React.FC = () => {
                         </a>
                       </Button>
                     )}
-                    {/* {project.liveUrl && (
-                      <Button variant="outline" size="sm" asChild>
-                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="w-4 h-4 mr-2" />
-                          Live Demo
-                        </a>
+                    {project.liveUrl && (
+                      <Button variant="outline" size="sm" disabled className="opacity-50 cursor-not-allowed">
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        Live Demo
                       </Button>
-                    )} */}
+                    )}
                     <Link href={`/projects/${project.id}`} passHref>
                       <Button variant="default" size="sm">
                         View Details
