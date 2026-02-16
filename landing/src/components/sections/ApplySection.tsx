@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { APPLICATION_OPEN } from '@/lib/config';
 import { Button } from '@/components/ui';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { EtherealShadow } from '@/components/ui/ethereal-shadow';
@@ -9,7 +8,11 @@ import { FadeIn, SlideUp, StaggerContainer, fadeInVariants, slideUpVariants, sta
 import { ArrowRight, Users, Clock, Target } from 'lucide-react';
 import Link from 'next/link';
 
-export const ApplySection: React.FC = () => {
+interface ApplySectionProps {
+  isApplicationOpen?: boolean;
+}
+
+export const ApplySection: React.FC<ApplySectionProps> = ({ isApplicationOpen = false }) => {
   return (
     <section id="apply" className="py-16 md:py-24 lg:py-32 bg-gradient-to-br from-background via-background to-muted/50 scroll-mt-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -83,18 +86,18 @@ export const ApplySection: React.FC = () => {
             <Card className="max-w-2xl mx-auto">
               <CardHeader>
                 <CardTitle className="text-2xl">
-                  {APPLICATION_OPEN ? 'Ready to Start?' : 'Coming Soon'}
+                  {isApplicationOpen ? 'Ready to Start?' : 'Coming Soon'}
                 </CardTitle>
                 <CardDescription className="text-lg">
-                  {APPLICATION_OPEN
+                  {isApplicationOpen
                     ? "The application takes about 5 minutes to complete. We'll review it and get back to you within a week."
                     : 'Applications for Cohort 2 will open shortly. Stay tuned!'}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Link href="/apply">
-                  <Button size="lg" className="w-full md:w-auto" variant={APPLICATION_OPEN ? 'default' : 'outline'}>
-                    {APPLICATION_OPEN ? 'Start Application' : 'Learn More'}
+                  <Button size="lg" className="w-full md:w-auto" variant={isApplicationOpen ? 'default' : 'outline'}>
+                    {isApplicationOpen ? 'Start Application' : 'Learn More'}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>
