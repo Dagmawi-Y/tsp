@@ -15,7 +15,7 @@ export default function HowItWorksSection() {
     {
       number: "02",
       title: "Construction",
-      description: "Across 3 intensive months, you'll architect and build a polished product with direct 1-on-1 guidance.",
+      description: "Across 3 intensive months, you'll architect and build a polished product with practical developer guidance.",
       details: ["Weekly sprints", "Hands-on help", "Pragmatic design"]
     },
     {

@@ -15,14 +15,15 @@ export function Footer() {
               className="rounded-lg"
             />
             <div className="text-sm text-muted-foreground">
-              TSP © 2025 | Made by Daggy
+              TSP © {new Date().getFullYear()}<br />
+              With 💚 by <a href="https://t.me/dag_mawi" target="_blank" rel="noopener noreferrer" className='text-primary'>Dagmawi</a>
             </div>
           </div>
 
           {/* Contact Links */}
           <div className="flex items-center space-x-6">
             <a
-              href="https://t.me/daggy"
+              href="https://t.me/dag_mawi"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
@@ -30,7 +31,7 @@ export function Footer() {
               Telegram
             </a>
             <a
-              href="mailto:daggy@example.com"
+              href="mailto:dagmawi.inbox@gmail.com"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
             >
               Email

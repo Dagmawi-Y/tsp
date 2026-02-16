@@ -15,7 +15,7 @@ export default function AboutSection() {
     {
       icon: Users,
       title: 'Direct Guidance',
-      description: 'Work 1-on-1 with a mentor dedicated to helping you solve blockers and stay on track.'
+      description: 'Work with experienced developers dedicated to helping you solve blockers and stay on track.'
     },
     {
       icon: Target,
@@ -86,22 +86,18 @@ export default function AboutSection() {
 
           {/* Core Stats - Neatly integrated */}
           <FadeIn variants={fadeInVariants} className="pt-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-y border-border/50">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 py-12 border-y border-border/50">
               <div className="text-center space-y-1">
                 <p className="text-3xl font-black text-foreground">3 Mo.</p>
                 <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Intensive</p>
               </div>
               <div className="text-center space-y-1">
-                <p className="text-3xl font-black text-foreground">1:1</p>
-                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Mentorship</p>
+                <p className="text-3xl font-black text-foreground">3x</p>
+                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Weekly Syncs</p>
               </div>
               <div className="text-center space-y-1">
                 <p className="text-3xl font-black text-foreground">100%</p>
                 <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Build-Focused</p>
-              </div>
-              <div className="text-center space-y-1">
-                <p className="text-3xl font-black text-foreground">Direct</p>
-                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Access</p>
               </div>
             </div>
           </FadeIn>

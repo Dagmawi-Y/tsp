@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { APPLICATION_OPEN } from '@/lib/config';
 import { Button } from '@/components/ui';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { EtherealShadow } from '@/components/ui/ethereal-shadow';
@@ -35,7 +36,7 @@ export const ApplySection: React.FC = () => {
                   <Users className="w-12 h-12 mx-auto mb-4 text-primary" />
                   <CardTitle className="text-xl">Small Cohorts</CardTitle>
                   <CardDescription>
-                    Limited spots for personalized attention
+                    Limited spots for focused group guidance
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -81,15 +82,19 @@ export const ApplySection: React.FC = () => {
           <EtherealShadow>
             <Card className="max-w-2xl mx-auto">
               <CardHeader>
-                <CardTitle className="text-2xl">Ready to Start?</CardTitle>
+                <CardTitle className="text-2xl">
+                  {APPLICATION_OPEN ? 'Ready to Start?' : 'Coming Soon'}
+                </CardTitle>
                 <CardDescription className="text-lg">
-                  The application takes about 5 minutes to complete. We&apos;ll review it and get back to you within a week.
+                  {APPLICATION_OPEN
+                    ? "The application takes about 5 minutes to complete. We'll review it and get back to you within a week."
+                    : 'Applications for Cohort 2 will open shortly. Stay tuned!'}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Link href="/apply">
-                  <Button size="lg" className="w-full md:w-auto">
-                    Start Application
+                  <Button size="lg" className="w-full md:w-auto" variant={APPLICATION_OPEN ? 'default' : 'outline'}>
+                    {APPLICATION_OPEN ? 'Start Application' : 'Learn More'}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>
