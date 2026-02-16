@@ -32,7 +32,7 @@ const faqData = [
   {
     id: 'mentorship-format',
     question: 'How does mentorship work?',
-    answer: '1-on-1 sessions, group discussions, code reviews. Personalized to your needs and goals.'
+    answer: 'Weekly sessions with experienced developers, group discussions, and code reviews. Tailored to your project needs.'
   },
   {
     id: 'selection-process',

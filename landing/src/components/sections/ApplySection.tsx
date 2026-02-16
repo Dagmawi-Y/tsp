@@ -36,7 +36,7 @@ export const ApplySection: React.FC = () => {
                   <Users className="w-12 h-12 mx-auto mb-4 text-primary" />
                   <CardTitle className="text-xl">Small Cohorts</CardTitle>
                   <CardDescription>
-                    Limited spots for personalized attention
+                    Limited spots for focused group guidance
                   </CardDescription>
                 </CardHeader>
               </Card>
