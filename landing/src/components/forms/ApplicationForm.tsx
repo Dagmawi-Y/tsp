@@ -42,8 +42,8 @@ const hoursOptions = [
 ];
 
 // Helper for consistent input styling that removes all rings and default outlines
-const inputStyles = "h-16 text-2xl font-bold bg-transparent border-0 border-b-2 border-primary/20 focus:border-primary focus-visible:border-primary focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none rounded-none px-4 transition-all placeholder:opacity-20 !ring-0 !outline-none";
-const textareaStyles = "min-h-[200px] text-xl font-medium bg-muted/30 border-2 border-border/50 focus:border-primary focus-visible:border-primary focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none rounded-2xl p-6 transition-all !ring-0 !outline-none";
+const inputStyles = "h-16 text-2xl font-black bg-transparent border-0 border-b-2 border-border focus:border-foreground focus-visible:border-foreground focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none rounded-none px-4 transition-all placeholder:opacity-20 !ring-0 !outline-none uppercase tracking-tight";
+const textareaStyles = "min-h-[200px] text-xl font-medium bg-muted/30 border border-border focus:border-foreground focus-visible:border-foreground focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none rounded-none p-6 transition-all !ring-0 !outline-none";
 
 export const ApplicationForm: React.FC<ApplicationFormProps> = ({
   onSubmit,
@@ -154,11 +154,11 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
       content: (
         <div className="flex flex-col items-center md:items-start gap-6">
           <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-primary" /> Become part of Cohort 2
+            <Sparkles className="w-4 h-4 text-foreground" /> Become part of Cohort 2
           </p>
           <div className="flex gap-4">
             <Link href="/">
-              <Button variant="outline" className="rounded-full px-8 h-12 font-bold border-2 hover:bg-muted transition-all">
+              <Button variant="outline" className="rounded-none px-8 h-12 font-black uppercase tracking-widest text-[10px] border border-border hover:bg-foreground hover:text-background transition-all">
                 Explore Website
               </Button>
             </Link>
@@ -183,7 +183,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
               className={inputStyles}
               onKeyDown={handleKeyDown}
             />
-            {errors.firstName && <p className="text-red-500 text-sm font-bold">{errors.firstName}</p>}
+            {errors.firstName && <p className="text-foreground text-[10px] font-black uppercase tracking-widest mt-2">{errors.firstName}</p>}
           </div>
           <div className="space-y-3">
             <Label className="text-sm font-bold uppercase tracking-widest opacity-60">Last Name</Label>
@@ -194,7 +194,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
               className={inputStyles}
               onKeyDown={handleKeyDown}
             />
-            {errors.lastName && <p className="text-red-500 text-sm font-bold">{errors.lastName}</p>}
+            {errors.lastName && <p className="text-foreground text-[10px] font-black uppercase tracking-widest mt-2">{errors.lastName}</p>}
           </div>
         </div>
       )
@@ -217,7 +217,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
               className={inputStyles}
               onKeyDown={handleKeyDown}
             />
-            {errors.email && <p className="text-red-500 text-sm font-bold">{errors.email}</p>}
+            {errors.email && <p className="text-foreground text-[10px] font-black uppercase tracking-widest mt-2">{errors.email}</p>}
           </div>
           <div className="space-y-3">
             <Label className="text-sm font-bold uppercase tracking-widest opacity-60">Telegram @</Label>
@@ -228,7 +228,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
               className={inputStyles}
               onKeyDown={handleKeyDown}
             />
-            {errors.telegramUsername && <p className="text-red-500 text-sm font-bold">{errors.telegramUsername}</p>}
+            {errors.telegramUsername && <p className="text-foreground text-[10px] font-black uppercase tracking-widest mt-2">{errors.telegramUsername}</p>}
           </div>
         </div>
       )
@@ -252,7 +252,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
               className={inputStyles}
               onKeyDown={handleKeyDown}
             />
-            {errors.githubUrl && <p className="text-red-500 text-sm font-bold">{errors.githubUrl}</p>}
+            {errors.githubUrl && <p className="text-foreground text-[10px] font-black uppercase tracking-widest mt-2">{errors.githubUrl}</p>}
           </div>
           <div className="space-y-3">
             <Label className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest opacity-60">
@@ -265,7 +265,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
               className={inputStyles}
               onKeyDown={handleKeyDown}
             />
-            {errors.linkedinUrl && <p className="text-red-500 text-sm font-bold">{errors.linkedinUrl}</p>}
+            {errors.linkedinUrl && <p className="text-foreground text-[10px] font-black uppercase tracking-widest mt-2">{errors.linkedinUrl}</p>}
           </div>
         </div>
       )
@@ -285,18 +285,18 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
                 setTimeout(nextStep, 200);
               }}
               className={cn(
-                "group relative flex items-center justify-between p-6 rounded-2xl border-2 transition-all duration-300 text-left",
+                "group relative flex items-center justify-between p-6 border transition-all duration-300 text-left",
                 formData.currentStatus === option.value
-                  ? "border-primary bg-primary/5 shadow-lg scale-[1.02]"
-                  : "border-border/50 hover:border-primary/30 hover:bg-muted/50"
+                  ? "border-foreground bg-foreground/5 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] translate-x-[-2px] translate-y-[-2px]"
+                  : "border-border hover:border-foreground/30 hover:bg-muted/50"
               )}
             >
               <span className="text-xl font-bold">{option.label}</span>
               <div className={cn(
-                "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all",
-                formData.currentStatus === option.value ? "border-primary bg-primary" : "border-border"
+                "w-6 h-6 border flex items-center justify-center transition-all",
+                formData.currentStatus === option.value ? "border-foreground bg-foreground" : "border-border"
               )}>
-                {formData.currentStatus === option.value && <div className="w-2 h-2 rounded-full bg-white" />}
+                {formData.currentStatus === option.value && <div className="w-2 h-2 bg-background" />}
               </div>
             </button>
           ))}
@@ -324,10 +324,10 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
                     setFormData(prev => ({ ...prev, experience: updated }));
                   }}
                   className={cn(
-                    "p-6 rounded-2xl border-2 transition-all duration-300 text-center space-y-2",
+                    "p-6 border transition-all duration-300 text-center space-y-2",
                     isSelected
-                      ? "border-primary bg-primary/5 text-primary scale-[1.05]"
-                      : "border-border/50 hover:border-primary/30"
+                      ? "border-foreground bg-foreground text-background"
+                      : "border-border hover:border-foreground/30"
                   )}
                 >
                   <span className="text-lg font-bold block">{option.label}</span>
@@ -355,7 +355,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
               onChange={e => setFormData(prev => ({ ...prev, projectDescription: e.target.value }))}
               className={textareaStyles}
             />
-            {errors.projectDescription && <p className="text-red-500 text-sm font-bold">{errors.projectDescription}</p>}
+            {errors.projectDescription && <p className="text-foreground text-[10px] font-black uppercase tracking-widest mt-2">{errors.projectDescription}</p>}
           </div>
           <div className="space-y-3">
             <Label className="text-sm font-bold uppercase tracking-widest opacity-60">Repo or Demo Link</Label>
@@ -366,7 +366,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
               className={inputStyles}
               onKeyDown={handleKeyDown}
             />
-            {errors.projectLink && <p className="text-red-500 text-sm font-bold">{errors.projectLink}</p>}
+            {errors.projectLink && <p className="text-foreground text-[10px] font-black uppercase tracking-widest mt-2">{errors.projectLink}</p>}
           </div>
         </div>
       )
@@ -386,7 +386,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
             onChange={e => setFormData(prev => ({ ...prev, technicalChallenge: e.target.value }))}
             className={textareaStyles}
           />
-          {errors.technicalChallenge && <p className="text-red-500 text-sm font-bold">{errors.technicalChallenge}</p>}
+          {errors.technicalChallenge && <p className="text-foreground text-[10px] font-black uppercase tracking-widest mt-2">{errors.technicalChallenge}</p>}
         </div>
       )
     },
@@ -405,7 +405,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
             onChange={e => setFormData(prev => ({ ...prev, whyJoin: e.target.value }))}
             className={textareaStyles}
           />
-          {errors.whyJoin && <p className="text-red-500 text-sm font-bold">{errors.whyJoin}</p>}
+          {errors.whyJoin && <p className="text-foreground text-[10px] font-black uppercase tracking-widest mt-2">{errors.whyJoin}</p>}
         </div>
       )
     },
@@ -419,13 +419,13 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
           <div
             onClick={() => setFormData(prev => ({ ...prev, canCommit: !prev.canCommit }))}
             className={cn(
-              "flex items-center gap-6 p-6 rounded-2xl border-2 transition-all duration-300 cursor-pointer",
-              formData.canCommit ? "border-primary bg-primary/5 scale-[1.02]" : "border-border/50 hover:bg-muted/50"
+              "flex items-center gap-6 p-6 border transition-all duration-300 cursor-pointer",
+              formData.canCommit ? "border-foreground bg-foreground/5 translate-x-[-2px] translate-y-[-2px]" : "border-border hover:bg-muted/50"
             )}
           >
             <div className={cn(
-              "w-10 h-10 rounded-xl flex items-center justify-center transition-all",
-              formData.canCommit ? "bg-primary text-white" : "bg-muted text-transparent"
+              "w-10 h-10 border flex items-center justify-center transition-all",
+              formData.canCommit ? "bg-foreground text-background border-foreground" : "bg-muted text-transparent border-border"
             )}>
               <CheckCircle className="w-6 h-6" />
             </div>
@@ -443,19 +443,19 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
                   key={option.value}
                   onClick={() => setFormData(prev => ({ ...prev, hoursPerWeek: option.value }))}
                   className={cn(
-                    "p-4 rounded-xl border-2 transition-all duration-300 text-left font-bold",
+                    "p-4 border transition-all duration-300 text-left font-bold uppercase tracking-widest text-[10px]",
                     formData.hoursPerWeek === option.value
-                      ? "border-primary bg-primary/5 scale-[1.02]"
-                      : "border-border/50 hover:border-primary/30"
+                      ? "border-foreground bg-foreground text-background"
+                      : "border-border hover:border-foreground/30"
                   )}
                 >
                   {option.label}
                 </button>
               ))}
             </div>
-            {errors.hoursPerWeek && <p className="text-red-500 text-sm font-bold">{errors.hoursPerWeek}</p>}
+            {errors.hoursPerWeek && <p className="text-foreground text-[10px] font-black uppercase tracking-widest mt-2">{errors.hoursPerWeek}</p>}
           </div>
-          {errors.canCommit && <p className="text-red-500 text-center font-bold">{errors.canCommit}</p>}
+          {errors.canCommit && <p className="text-foreground text-[10px] font-black uppercase tracking-widest mt-2 text-center">{errors.canCommit}</p>}
         </div>
       )
     }
@@ -512,11 +512,11 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
       <div className="text-center space-y-12 py-20 px-6 max-w-2xl mx-auto">
         <motion.div
           initial={{ scale: 0 }}
-          animate={{ scale: 1, rotate: 360 }}
+          animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 260, damping: 20 }}
-          className="w-32 h-32 bg-primary rounded-full flex items-center justify-center mx-auto shadow-[0_0_80px_rgba(var(--primary-rgb),0.4)]"
+          className="w-32 h-32 bg-foreground border-border border flex items-center justify-center mx-auto"
         >
-          <CheckCircle className="w-16 h-16 text-primary-foreground" />
+          <CheckCircle className="w-16 h-16 text-background" />
         </motion.div>
 
         <div className="space-y-6">
@@ -524,9 +524,9 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-5xl md:text-7xl font-black tracking-tight"
+            className="text-5xl md:text-7xl font-black tracking-tight font-display"
           >
-            Application <br /> <span className="text-primary">Received.</span>
+            Application <br /> <span className="text-foreground">Received.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -546,7 +546,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
           transition={{ delay: 0.6 }}
         >
           <Link href="/">
-            <Button size="lg" className="rounded-full px-12 h-16 text-xl font-bold shadow-xl hover:shadow-primary/20 transition-all hover:scale-105">
+            <Button size="lg" className="rounded-none px-12 h-16 text-xl font-black uppercase tracking-widest transition-all hover:bg-background hover:text-foreground border border-foreground">
               Back to Home
             </Button>
           </Link>
@@ -573,16 +573,16 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
         animate={{
           x: (currentStep % 3 - 1) * 100,
           y: (Math.floor(currentStep / 3) - 1) * 100,
-          opacity: [0.1, 0.2, 0.1]
+          opacity: [0.05, 0.1, 0.05]
         }}
         transition={{ duration: 4, repeat: Infinity, repeatType: "reverse" }}
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[600px] h-[600px] bg-foreground/5 blur-[120px] pointer-events-none"
       />
 
       {/* Progress Bar */}
-      <div className="fixed top-0 left-0 w-full h-1.5 bg-muted z-[110]">
+      <div className="fixed top-0 left-0 w-full h-1 bg-muted z-[110]">
         <motion.div
-          className="h-full bg-primary"
+          className="h-full bg-foreground"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.4, ease: "easeOut" }}
@@ -591,7 +591,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
 
       {/* Step Metadata */}
       <div className="flex items-center justify-between mb-12">
-        <span className="text-sm font-black text-primary uppercase tracking-[0.3em]">
+        <span className="text-[10px] font-black text-foreground uppercase tracking-[0.4em]">
           Step {String(currentStep + 1).padStart(2, '0')} / {String(totalSteps).padStart(2, '0')}
         </span>
       </div>
@@ -610,7 +610,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
             className="w-full space-y-12"
           >
             <div className="space-y-4 text-center md:text-left">
-              <h2 className="text-3xl md:text-5xl font-black text-foreground tracking-tight leading-tight">
+              <h2 className="text-3xl md:text-6xl font-black text-foreground tracking-tighter leading-tight font-display">
                 {steps[currentStep].title}
               </h2>
               <p className="text-xl text-muted-foreground font-medium">
@@ -634,7 +634,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
                 variant="ghost"
                 size="lg"
                 onClick={prevStep}
-                className="rounded-full px-8 h-16 text-lg font-bold hover:bg-muted/50 transition-all group border-2 border-transparent"
+                className="rounded-none px-8 h-16 text-[10px] font-black uppercase tracking-widest hover:bg-muted/50 transition-all group border border-border"
               >
                 <ArrowLeft className="mr-2 w-5 h-5 group-hover:-translate-x-1 transition-transform" /> Back
               </Button>
@@ -658,7 +658,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
             size="lg"
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="rounded-full px-12 h-16 text-lg font-black shadow-xl hover:shadow-primary/20 transition-all hover:scale-[1.03] active:scale-95 group"
+            className="rounded-none px-12 h-16 text-[10px] font-black uppercase tracking-widest border border-foreground hover:bg-background hover:text-foreground transition-all active:translate-y-0.5 group"
           >
             {isSubmitting ? (
               <Loader2 className="w-6 h-6 animate-spin" />
@@ -672,7 +672,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
           <Button
             size="lg"
             onClick={nextStep}
-            className="rounded-full px-12 h-16 text-lg font-black bg-foreground text-background hover:bg-foreground/90 transition-all hover:scale-[1.03] active:scale-95 group shadow-lg"
+            className="rounded-none px-12 h-16 text-[10px] font-black uppercase tracking-widest bg-foreground text-background border border-foreground hover:bg-background hover:text-foreground transition-all active:translate-y-0.5 group"
           >
             {currentStep === 0 ? 'Start Application' : 'Continue'} <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Button>
@@ -683,7 +683,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 flex items-center justify-center gap-3 font-bold"
+          className="mt-6 p-4 border border-border bg-muted text-foreground flex items-center justify-center gap-3 font-black uppercase tracking-widest text-[10px]"
         >
           <AlertCircle className="w-5 h-5" />
           There was an error saving your response. Please try again.

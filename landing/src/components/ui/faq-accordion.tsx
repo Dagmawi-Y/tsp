@@ -34,24 +34,24 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({
         <EtherealShadow
           key={item.id}
           variant="subtle"
-          className="rounded-2xl"
+          className="rounded-none"
         >
           <AccordionItem
             value={item.id}
-            className="border-0 bg-card/60 backdrop-blur-md rounded-2xl overflow-hidden transition-all duration-500 hover:bg-card/80 ring-1 ring-border/50 group"
+            className="border border-border bg-card/60 backdrop-blur-md rounded-none overflow-hidden transition-all duration-500 hover:bg-card/80 group"
           >
             <AccordionTrigger
               hideChevron
               className={cn(
                 "px-8 py-6 text-left hover:no-underline transition-all duration-300",
-                "data-[state=open]:bg-primary/[0.03]"
+                "data-[state=open]:bg-foreground/[0.03]"
               )}
             >
               <div className="flex items-center gap-6 w-full">
-                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 shadow-sm">
-                  <span className="text-sm font-bold">{index + 1}</span>
+                <div className="flex-shrink-0 w-10 h-10 border border-border bg-muted flex items-center justify-center text-foreground group-hover:bg-foreground group-hover:text-background transition-all duration-500">
+                  <span className="text-sm font-black">{index + 1}</span>
                 </div>
-                <span className="text-lg md:text-xl font-bold tracking-tight text-foreground/90 group-hover:text-primary transition-colors duration-300">
+                <span className="text-lg md:text-xl font-bold tracking-tight text-foreground/90 group-hover:text-foreground transition-colors duration-300 uppercase">
                   {item.question}
                 </span>
                 <div className="ml-auto opacity-40 group-hover:opacity-100 transition-opacity">

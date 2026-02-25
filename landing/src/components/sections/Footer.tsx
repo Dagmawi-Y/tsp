@@ -4,35 +4,37 @@ export function Footer() {
   return (
     <footer className="bg-background border-t border-border py-8 md:py-12">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 uppercase tracking-widest text-[10px] font-black">
           {/* Logo and Copyright */}
           <div className="flex items-center space-x-3">
-            <Image
-              src="/assets/tsp-logo.jpg"
-              alt="TSP Logo"
-              width={32}
-              height={32}
-              className="rounded-lg"
-            />
-            <div className="text-sm text-muted-foreground">
+            <div className="p-0.5 border border-border bg-background">
+              <Image
+                src="/assets/tsp-logo.jpg"
+                alt="TSP Logo"
+                width={28}
+                height={28}
+                className="grayscale"
+              />
+            </div>
+            <div className="text-muted-foreground">
               TSP © {new Date().getFullYear()}<br />
-              With 💚 by <a href="https://t.me/dag_mawi" target="_blank" rel="noopener noreferrer" className='text-primary'>Dagmawi</a>
+              WITH 🖤 BY <a href="https://t.me/dag_mawi" target="_blank" rel="noopener noreferrer" className='text-foreground hover:underline'>DAGMAWI</a>
             </div>
           </div>
 
           {/* Contact Links */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-8">
             <a
               href="https://t.me/dag_mawi"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Telegram
             </a>
             <a
               href="mailto:dagmawi.inbox@gmail.com"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Email
             </a>

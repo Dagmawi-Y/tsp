@@ -22,10 +22,10 @@ export const PreviousCohortsSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 id="previous-cohorts-heading" className="text-3xl md:text-4xl font-bold text-foreground mb-4 tracking-tight">
-            Previous Cohorts
+          <h2 id="previous-cohorts-heading" className="text-4xl md:text-6xl font-black text-foreground mb-4 tracking-tighter font-display uppercase italic text-center">
+            PREVIOUS COHORTS.
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-medium">
+          <p className="text-muted-foreground uppercase tracking-[0.3em] font-black text-[10px] text-center">
             Amazing projects built by our previous cohort participants.
           </p>
         </div>
@@ -38,23 +38,23 @@ export const PreviousCohortsSection: React.FC = () => {
             : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
           }`}>
           {featuredProjects.map((project) => (
-            <EtherealShadow key={project.id} variant="subtle">
-              <Card className="group hover:shadow-lg transition-all duration-300 h-full">
+            <EtherealShadow key={project.id} variant="subtle" className="rounded-none">
+              <Card className="group transition-all duration-300 h-full border border-border rounded-none bg-card/40">
                 {/* Project Screenshot */}
-                <div className="relative overflow-hidden rounded-t-lg">
+                <div className="relative overflow-hidden border-b border-border">
                   {project.imageUrl[0] ? (
                     <img
                       src={project.imageUrl[0]}
                       alt={`${project.title} Screenshot`}
-                      className="w-full h-48 md:h-56 object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="w-full h-48 md:h-56 object-cover grayscale group-hover:grayscale-0 transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="w-full h-48 md:h-56 bg-muted flex items-center justify-center text-muted-foreground">
+                    <div className="w-full h-48 md:h-56 bg-muted flex items-center justify-center text-[10px] font-black uppercase tracking-widest text-muted-foreground">
                       No Screenshot
                     </div>
                   )}
                   <div className="absolute top-3 right-3">
-                    <span className="px-2 py-1 bg-primary/80 text-primary-foreground text-xs rounded-md font-medium">
+                    <span className="px-2 py-1 bg-foreground text-background text-[10px] font-black uppercase tracking-widest">
                       {project.category}
                     </span>
                   </div>
@@ -64,10 +64,10 @@ export const PreviousCohortsSection: React.FC = () => {
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
-                      <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                      <CardTitle className="text-xl group-hover:text-foreground transition-colors font-black uppercase tracking-tight font-display">
                         {project.title}
                       </CardTitle>
-                      <CardDescription className="mt-1">
+                      <CardDescription className="mt-1 font-medium uppercase tracking-[0.1em] text-[10px]">
                         by {project.author} • {project.cohort}
                       </CardDescription>
                     </div>
@@ -86,7 +86,7 @@ export const PreviousCohortsSection: React.FC = () => {
                       {project.technologies.map((tech) => (
                         <span
                           key={tech}
-                          className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md font-medium"
+                          className="px-2 py-1 border border-border bg-muted text-muted-foreground text-[10px] font-black uppercase tracking-widest"
                         >
                           {tech}
                         </span>
@@ -126,16 +126,16 @@ export const PreviousCohortsSection: React.FC = () => {
         {/* Show More Button */}
         {showMoreButton && (
           <div className="text-center mt-12">
-            <EtherealShadow>
-              <Card className="max-w-2xl mx-auto">
+            <EtherealShadow className="rounded-none">
+              <Card className="max-w-2xl mx-auto border border-border rounded-none">
                 <CardContent className="pt-6">
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-bold">Want to See More?</h3>
-                    <p className="text-muted-foreground">
+                  <div className="space-y-6">
+                    <h3 className="text-3xl font-black uppercase tracking-tighter font-display">WANT TO SEE MORE?</h3>
+                    <p className="text-muted-foreground font-medium uppercase tracking-tight text-sm">
                       Explore all projects from our previous cohorts and get inspired by what you could build.
                     </p>
                     <Link href="/prev-cohorts">
-                      <Button size="lg" className="w-full md:w-auto">
+                      <Button size="lg" className="w-full md:w-auto rounded-none border border-foreground bg-foreground text-background hover:bg-background hover:text-foreground uppercase font-black text-[10px] tracking-widest h-14 px-10">
                         View All Projects
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </Button>

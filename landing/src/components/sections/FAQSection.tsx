@@ -51,10 +51,10 @@ export const FAQSection: React.FC = () => {
     <section className="py-16 md:py-24 lg:py-32 bg-background">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeIn variants={fadeInVariants} className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 tracking-tight">
-            FAQ
+          <h2 className="text-4xl md:text-6xl font-black text-foreground mb-4 tracking-tighter font-display uppercase italic">
+            FAQ.
           </h2>
-          <p className="text-lg text-muted-foreground max-w-xl mx-auto font-medium">
+          <p className="text-muted-foreground uppercase tracking-[0.3em] font-black text-[10px]">
             Quick answers to common questions.
           </p>
         </FadeIn>
@@ -67,8 +67,8 @@ export const FAQSection: React.FC = () => {
           className="max-w-3xl mx-auto relative"
         >
           {/* Decorative background elements */}
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
-          <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
+          <div className="absolute -top-24 -right-24 w-64 h-64 bg-foreground/5 blur-3xl -z-10" />
+          <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-foreground/5 blur-3xl -z-10" />
 
           <FAQAccordion items={faqData} />
         </SlideUp>

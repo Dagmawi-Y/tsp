@@ -19,11 +19,11 @@ export function HeroSection({ isApplicationOpen = false }: HeroSectionProps) {
     >
       {/* Background Elements */}
       <div className="absolute inset-0 -z-10 bg-background" aria-hidden="true">
-        {/* Animated Gradient Mesh */}
-        <div className="absolute inset-0 opacity-20 dark:opacity-30">
+        {/* Subtle monochrome ambient lights */}
+        <div className="absolute inset-0 opacity-5 dark:opacity-10">
           <motion.div
             animate={{
-              scale: [1, 1.2, 1],
+              scale: [1, 1.1, 1],
               opacity: [0.3, 0.5, 0.3],
             }}
             transition={{
@@ -31,38 +31,14 @@ export function HeroSection({ isApplicationOpen = false }: HeroSectionProps) {
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary/30 blur-[120px]"
-          />
-          <motion.div
-            animate={{
-              scale: [1.2, 1, 1.2],
-              opacity: [0.2, 0.4, 0.2],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute top-[20%] -right-[10%] w-[40%] h-[40%] rounded-full bg-blue-500/10 blur-[100px]"
-          />
-          <motion.div
-            animate={{
-              y: [0, 50, 0],
-              opacity: [0.1, 0.3, 0.1],
-            }}
-            transition={{
-              duration: 12,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute bottom-[10%] left-[20%] w-[60%] h-[30%] rounded-full bg-primary/20 blur-[120px]"
+            className="absolute top-[10%] left-[10%] w-[60%] h-[60%] bg-foreground/5 blur-[120px]"
           />
         </div>
 
         {/* Subtle grid pattern */}
         <div className="absolute inset-0 opacity-10 dark:opacity-20"
           style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--primary)) 1px, transparent 0)`,
+            backgroundImage: `radial-gradient(circle at 1px 1px, #ccc 1px, transparent 0)`,
             backgroundSize: '40px 40px'
           }}>
         </div>
@@ -76,16 +52,15 @@ export function HeroSection({ isApplicationOpen = false }: HeroSectionProps) {
           className="flex flex-col items-center space-y-10"
         >
 
-          {/* Logo with Glow */}
+          {/* Logo - Monochrome & Sharp */}
           <FadeIn variants={fadeInVariants} className="relative group">
-            <div className="absolute -inset-4 bg-primary/20 rounded-[2.5rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10" />
-            <div className="p-1 rounded-[2rem] bg-gradient-to-br from-white/20 to-transparent dark:from-white/10 dark:via-transparent dark:to-black/20 backdrop-blur-xl ring-1 ring-border shadow-2xl transition-transform duration-500 group-hover:scale-105">
+            <div className="p-1 border border-border bg-background shadow-[20px_20px_0px_0px_rgba(0,0,0,0.05)] dark:shadow-[20px_20px_0px_0px_rgba(255,255,255,0.05)] transition-transform duration-500 group-hover:scale-105">
               <Image
                 src="/assets/tsp-logo.jpg"
                 alt="TSP Logo"
-                width={120}
-                height={120}
-                className="rounded-[1.8rem] shadow-sm select-none"
+                width={140}
+                height={140}
+                className="grayscale group-hover:grayscale-0 transition-all duration-700 select-none"
                 priority
               />
             </div>
@@ -96,11 +71,11 @@ export function HeroSection({ isApplicationOpen = false }: HeroSectionProps) {
             <SlideUp variants={slideUpVariants}>
               <h1
                 id="hero-title"
-                className="text-4xl md:text-6xl lg:text-7xl font-black text-foreground leading-tight tracking-tighter"
+                className="text-5xl md:text-8xl lg:text-9xl font-black text-foreground leading-[0.85] tracking-tighter font-display mb-8"
               >
-                The Side{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/80 to-primary/60">
-                  Project.
+                THE SIDE <br />
+                <span className="text-foreground italic">
+                  PROJECT.
                 </span>
               </h1>
             </SlideUp>
@@ -118,11 +93,11 @@ export function HeroSection({ isApplicationOpen = false }: HeroSectionProps) {
               <Button
                 variant="default"
                 size="lg"
-                className="w-full sm:w-auto rounded-xl px-10 h-16 text-lg font-bold transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_20px_40px_-15px_rgba(var(--primary-rgb),0.3)] shadow-lg active:scale-95 group"
+                className="w-full sm:w-auto rounded-none px-12 h-16 text-[12px] font-black uppercase tracking-[0.2em] transition-all duration-300 hover:bg-background hover:text-foreground border border-foreground active:translate-y-1 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] group"
                 aria-label={isApplicationOpen ? 'Apply for Cohort 2' : 'Coming Soon'}
               >
-                {isApplicationOpen ? 'Apply for Cohort 2' : 'Coming Soon'}
-                <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                {isApplicationOpen ? 'Build your breakout project' : 'Coming Soon'}
+                <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Link>
 
@@ -130,7 +105,7 @@ export function HeroSection({ isApplicationOpen = false }: HeroSectionProps) {
               <Button
                 variant="outline"
                 size="lg"
-                className="w-full sm:w-auto rounded-xl px-10 h-16 text-lg font-bold backdrop-blur-sm bg-background/50 transition-all duration-300 hover:bg-accent border-border hover:border-primary/30 active:scale-95 shadow-sm"
+                className="w-full sm:w-auto rounded-none px-12 h-16 text-[12px] font-black uppercase tracking-[0.2em] transition-all duration-300 hover:bg-foreground hover:text-background border border-border group"
                 aria-label="See Previous Cohorts"
               >
                 Showcase
