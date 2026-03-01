@@ -105,7 +105,7 @@ export function HeroSection({ isApplicationOpen = false }: HeroSectionProps) {
                   variant="outline"
                   size="lg"
                   className="w-full sm:w-auto rounded-none px-12 h-16 text-[12px] font-black uppercase tracking-[0.2em] transition-all duration-300 bg-muted/30 hover:bg-foreground hover:text-background text-muted-foreground border-2 border-dashed border-border group flex items-center justify-center gap-3 relative overflow-hidden"
-                  aria-label="Waitlist / Coming Soon"
+                  aria-label="Waitlist / Opening Soon"
                 >
                   <div className="grid grid-cols-1 grid-rows-1 place-items-center">
                     <div className="col-start-1 row-start-1 flex items-center justify-center gap-3 transition-opacity duration-300 opacity-100 group-hover:opacity-0">
@@ -113,7 +113,7 @@ export function HeroSection({ isApplicationOpen = false }: HeroSectionProps) {
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-400"></span>
                       </span>
-                      <span>C2 Coming Soon</span>
+                      <span>C2 Opening Soon</span>
                     </div>
                     <div className="col-start-1 row-start-1 flex items-center justify-center transition-opacity duration-300 opacity-0 group-hover:opacity-100">
                       <span>Join Waitlist</span>

@@ -86,7 +86,7 @@ export const ApplySection: React.FC<ApplySectionProps> = ({ isApplicationOpen = 
             <Card className="max-w-2xl mx-auto border border-border rounded-none bg-card/40">
               <CardHeader className="space-y-6">
                 <CardTitle className="text-4xl font-black uppercase tracking-tighter font-display">
-                  {isApplicationOpen ? 'READY TO START?' : 'COMING SOON'}
+                  {isApplicationOpen ? 'READY TO START?' : 'OPENING SOON'}
                 </CardTitle>
                 <CardDescription className="text-lg font-medium text-foreground/80">
                   {isApplicationOpen

@@ -20,8 +20,8 @@ export function Banner({ isVisible, onClose, isApplicationOpen = false }: Banner
                     exit={{ y: -100, opacity: 0 }}
                     transition={{ type: "spring", stiffness: 100, damping: 20 }}
                     className={`fixed top-0 left-0 right-0 z-[100] px-4 py-1.5 text-white shadow-md ${isApplicationOpen
-                            ? 'bg-linear-to-r from-teal-400 to-blue-400'
-                            : 'bg-linear-to-r from-teal-900 to-blue-900'
+                        ? 'bg-linear-to-r from-teal-400 to-blue-400'
+                        : 'bg-linear-to-r from-violet-400 to-fuchsia-400'
                         }`}
                 >
                     <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
@@ -32,7 +32,7 @@ export function Banner({ isVisible, onClose, isApplicationOpen = false }: Banner
                             <p className="text-[11px] font-black uppercase tracking-widest text-center text-white drop-shadow-sm">
                                 {isApplicationOpen
                                     ? <>Applications for Cohort 2 are now open! <span className="hidden sm:inline opacity-90">Build your breakout project.</span></>
-                                    : <>Cohort 2 is coming soon! <span className="hidden sm:inline opacity-90">Stay tuned for updates.</span></>}
+                                    : <>Cohort 2 is opening soon! <span className="hidden sm:inline opacity-90">Stay tuned for updates.</span></>}
                             </p>
                             <Link href="/apply" className="hidden md:flex items-center text-[11px] font-black uppercase tracking-widest no-underline hover:underline transition-all text-white drop-shadow-sm">
                                 {isApplicationOpen ? 'Apply' : 'Waitlist'} <ArrowRight className="ml-1 w-3 h-3" />

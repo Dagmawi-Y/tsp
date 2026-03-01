@@ -88,7 +88,7 @@ function ComingSoon() {
             </div>
 
             <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-foreground mb-6 font-display">
-                Coming Soon.
+                Opening Soon.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-md mb-2 font-medium uppercase tracking-widest text-[12px]">
                 Applications for Cohort 2 will open shortly.
