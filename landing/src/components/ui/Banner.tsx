@@ -21,7 +21,7 @@ export function Banner({ isVisible, onClose, isApplicationOpen = false }: Banner
                     transition={{ type: "spring", stiffness: 100, damping: 20 }}
                     className={`fixed top-0 left-0 right-0 z-[100] px-4 py-1.5 text-white shadow-md ${isApplicationOpen
                         ? 'bg-linear-to-r from-teal-400 to-blue-400'
-                        : 'bg-linear-to-r from-violet-400 to-fuchsia-400'
+                        : 'bg-linear-to-r from-slate-500 to-slate-700'
                         }`}
                 >
                     <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
