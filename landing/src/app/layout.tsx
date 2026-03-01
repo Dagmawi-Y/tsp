@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -17,6 +18,7 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
   title: "The Side Project (TSP) - 3-Month Mentorship Program",
   description: "A 3-month mentorship helping aspiring engineers build real projects and get ready for their career. Apply for Cohort 2 and join our community of builders.",
   keywords: ["mentorship", "software development", "side projects", "engineering", "programming", "web development"],
@@ -78,6 +80,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <div className="fixed bottom-6 right-6 z-50 p-1 border-2 border-border bg-background/80 backdrop-blur-md shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] transition-transform hover:-translate-y-1">
+            <ThemeToggle />
+          </div>
         </ThemeProvider>
       </body>
     </html>

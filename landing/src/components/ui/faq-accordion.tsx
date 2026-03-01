@@ -44,11 +44,11 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({
               hideChevron
               className={cn(
                 "px-8 py-6 text-left hover:no-underline transition-all duration-300",
-                "data-[state=open]:bg-foreground/[0.03]"
+                "data-[state=open]:bg-foreground/5"
               )}
             >
               <div className="flex items-center gap-6 w-full">
-                <div className="flex-shrink-0 w-10 h-10 border border-border bg-muted flex items-center justify-center text-foreground group-hover:bg-foreground group-hover:text-background transition-all duration-500">
+                <div className="shrink-0 w-10 h-10 border border-border bg-muted flex items-center justify-center text-foreground group-hover:bg-linear-to-br group-hover:from-teal-400 group-hover:to-blue-500 group-hover:border-teal-400 group-hover:text-white transition-all duration-500 group-data-[state=open]:bg-linear-to-br group-data-[state=open]:from-teal-400 group-data-[state=open]:to-blue-500 group-data-[state=open]:text-white">
                   <span className="text-sm font-black">{index + 1}</span>
                 </div>
                 <span className="text-lg md:text-xl font-bold tracking-tight text-foreground/90 group-hover:text-foreground transition-colors duration-300 uppercase">

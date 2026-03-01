@@ -1,15 +1,25 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui';
+import { ArrowLeft } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-gray-100">
-      <div className="text-center">
-        <h1 className="text-6xl font-bold text-black mb-4">404</h1>
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Page Not Found</h2>
-        <p className="text-gray-600 mb-8">The page you&apos;re looking for doesn&apos;t exist.</p>
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+      <div className="text-center space-y-6 max-w-lg mx-auto">
+        <h1 className="text-8xl md:text-9xl font-black text-foreground tracking-tighter font-display leading-none">
+          404.
+        </h1>
+        <h2 className="text-xl md:text-2xl font-black uppercase tracking-widest text-muted-foreground">
+          Page Not Found
+        </h2>
+        <p className="text-muted-foreground font-medium text-lg pb-8">
+          The page you&apos;re looking for doesn&apos;t exist or has been moved.
+        </p>
         <Link href="/">
-          <Button>Go Home</Button>
+          <Button variant="outline" size="lg" className="rounded-none px-8 h-14 font-black uppercase tracking-widest text-[10px] text-muted-foreground hover:text-foreground border-border hover:border-foreground transition-all active:translate-y-0.5 group">
+            <ArrowLeft className="mr-2 w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1" />
+            Back to Home
+          </Button>
         </Link>
       </div>
     </div>

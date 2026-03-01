@@ -15,18 +15,73 @@ import {
     Cell
 } from "recharts";
 
-const data = [
-    { name: "Week 1", count: 4 },
-    { name: "Week 2", count: 12 },
-    { name: "Week 3", count: 8 },
-    { name: "Week 4", count: 18 },
-    { name: "Week 5", count: 24 },
-    { name: "Week 6", count: 32 },
-];
-
-const COLORS = ['#000000', '#262626', '#404040', '#525252', '#737373'];
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
+import { format, startOfWeek, endOfWeek, eachDayOfInterval, subDays, isSameDay } from "date-fns";
+import { Loader2 } from "lucide-react";
 
 export default function StatsPage() {
+    const [loading, setLoading] = useState(true);
+    const [growthData, setGrowthData] = useState<any[]>([]);
+    const [statusData, setStatusData] = useState<any[]>([]);
+    const [totalApps, setTotalApps] = useState(0);
+
+    useEffect(() => {
+        async function fetchStats() {
+            setLoading(true);
+            const { data, error } = await supabase
+                .from('applications')
+                .select('created_at, status');
+
+            if (error) {
+                console.error(error);
+                setLoading(false);
+                return;
+            }
+
+            setTotalApps(data.length);
+
+            // Process Status Distribution
+            const statuses = ['pending', 'accepted', 'rejected'];
+            const distribution = statuses.map(s => ({
+                name: s.charAt(0).toUpperCase() + s.slice(1),
+                value: data.filter(a => (a.status || 'pending').toLowerCase() === s).length
+            }));
+            setStatusData(distribution);
+
+            // Process Application Growth (Last 30 Days)
+            const last30Days = eachDayOfInterval({
+                start: subDays(new Date(), 30),
+                end: new Date()
+            });
+
+            const growth = last30Days.map(day => {
+                const count = data.filter(a => isSameDay(new Date(a.created_at), day)).length;
+                return {
+                    name: format(day, 'MMM d'),
+                    count: count,
+                    fullDate: day
+                };
+            });
+
+            // Aggregate growth by week for a cleaner chart if needed, 
+            // but daily for last 30 days is okay. Let's do daily but label sparingly.
+            setGrowthData(growth);
+            setLoading(false);
+        }
+
+        fetchStats();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-[60vh]">
+                <Loader2 className="w-12 h-12 animate-spin text-foreground" />
+            </div>
+        );
+    }
+    const COLORS = ['#000000', '#262626', '#404040', '#525252', '#737373'];
+
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Header */}
@@ -37,7 +92,7 @@ export default function StatsPage() {
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 border border-border bg-muted">
                     <Activity className="w-3 h-3" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">+18% vs Last Month</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest">{totalApps} Total Candidates</span>
                 </div>
             </div>
 
@@ -46,11 +101,11 @@ export default function StatsPage() {
                 <Card>
                     <CardHeader>
                         <CardTitle>Application Growth</CardTitle>
-                        <CardDescription>Number of new applications received per week.</CardDescription>
+                        <CardDescription>Daily applications received in the last 30 days.</CardDescription>
                     </CardHeader>
                     <CardContent className="h-[300px]">
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={data}>
+                            <AreaChart data={growthData}>
                                 <defs>
                                     <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#000000" stopOpacity={0.1} />
@@ -66,6 +121,7 @@ export default function StatsPage() {
                                     tickFormatter={(v) => v.toUpperCase()}
                                     axisLine={false}
                                     tickLine={false}
+                                    interval={6}
                                 />
                                 <YAxis
                                     stroke="#737373"
@@ -104,13 +160,7 @@ export default function StatsPage() {
                     </CardHeader>
                     <CardContent className="h-[300px]">
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={[
-                                { name: "Pending", value: 12 },
-                                { name: "Reviewed", value: 24 },
-                                { name: "Interview", value: 8 },
-                                { name: "Accepted", value: 4 },
-                                { name: "Rejected", value: 6 }
-                            ]}>
+                            <BarChart data={statusData}>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e5e5" />
                                 <XAxis
                                     dataKey="name"
@@ -139,7 +189,7 @@ export default function StatsPage() {
                                     }}
                                 />
                                 <Bar dataKey="value" radius={[0, 0, 0, 0]}>
-                                    {[0, 1, 2, 3, 4].map((entry, index) => (
+                                    {statusData.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Bar>

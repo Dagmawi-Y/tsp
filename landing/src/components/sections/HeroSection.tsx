@@ -36,9 +36,9 @@ export function HeroSection({ isApplicationOpen = false }: HeroSectionProps) {
         </div>
 
         {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-10 dark:opacity-20"
+        <div className="absolute inset-0 opacity-[0.15] dark:opacity-20"
           style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, #ccc 1px, transparent 0)`,
+            backgroundImage: `radial-gradient(circle at 1px 1px, var(--foreground) 1px, transparent 0)`,
             backgroundSize: '40px 40px'
           }}>
         </div>
@@ -88,17 +88,39 @@ export function HeroSection({ isApplicationOpen = false }: HeroSectionProps) {
           </div>
 
           {/* Enhanced CTA Buttons Area */}
-          <FadeIn variants={fadeInVariants} className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center w-full max-w-lg mx-auto">
+          <FadeIn variants={fadeInVariants} className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center w-full max-w-xl mx-auto">
             <Link href="/apply" className="w-full sm:w-auto">
-              <Button
-                variant="default"
-                size="lg"
-                className="w-full sm:w-auto rounded-none px-12 h-16 text-[12px] font-black uppercase tracking-[0.2em] transition-all duration-300 hover:bg-background hover:text-foreground border border-foreground active:translate-y-1 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] group"
-                aria-label={isApplicationOpen ? 'Apply for Cohort 2' : 'Coming Soon'}
-              >
-                {isApplicationOpen ? 'Build your breakout project' : 'Coming Soon'}
-                <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Button>
+              {isApplicationOpen ? (
+                <Button
+                  variant="default"
+                  size="lg"
+                  className="w-full sm:w-auto rounded-none px-12 h-16 text-[12px] font-black uppercase tracking-[0.2em] transition-all duration-300 hover:bg-background hover:text-foreground border border-foreground active:translate-y-1 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] group"
+                  aria-label="Apply for Cohort 2"
+                >
+                  Build your breakout project
+                  <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Button>
+              ) : (
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto rounded-none px-12 h-16 text-[12px] font-black uppercase tracking-[0.2em] transition-all duration-300 bg-muted/30 hover:bg-foreground hover:text-background text-muted-foreground border-2 border-dashed border-border group flex items-center justify-center gap-3 relative overflow-hidden"
+                  aria-label="Waitlist / Coming Soon"
+                >
+                  <div className="grid grid-cols-1 grid-rows-1 place-items-center">
+                    <div className="col-start-1 row-start-1 flex items-center justify-center gap-3 transition-opacity duration-300 opacity-100 group-hover:opacity-0">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-400"></span>
+                      </span>
+                      <span>C2 Coming Soon</span>
+                    </div>
+                    <div className="col-start-1 row-start-1 flex items-center justify-center transition-opacity duration-300 opacity-0 group-hover:opacity-100">
+                      <span>Join Waitlist</span>
+                    </div>
+                  </div>
+                </Button>
+              )}
             </Link>
 
             <Link href="/prev-cohorts" className="w-full sm:w-auto">

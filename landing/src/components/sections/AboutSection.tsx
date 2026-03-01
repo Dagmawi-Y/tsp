@@ -44,14 +44,14 @@ export default function AboutSection() {
                 The Mission
               </div>
               <h2 className="text-4xl md:text-7xl lg:text-8xl font-black text-foreground tracking-tighter leading-[0.8] font-display uppercase italic">
-                BRIDGING THE GAP <br />
-                <span className="text-foreground">WANTING</span> <span className="opacity-20">&</span> <span className="opacity-40">BUILDING.</span>
+                LEARN BY <br />
+                <span className="text-foreground opacity-60">SHIPPING.</span>
               </h2>
             </FadeIn>
 
             <FadeIn variants={fadeInVariants}>
-              <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed font-medium max-w-2xl mx-auto uppercase tracking-tight">
-                The best way to learn is by shipping. I help you cross the finish line on your most ambitious side project.
+              <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed font-bold max-w-2xl mx-auto uppercase tracking-tight">
+                Get the mentorship and structure to ship your most ambitious side project and launch your career.
               </p>
             </FadeIn>
           </div>
@@ -65,7 +65,7 @@ export default function AboutSection() {
                   <EtherealShadow variant="subtle" className="h-full rounded-none">
                     <Card className="h-full flex flex-col border border-border bg-card/40 backdrop-blur-md transition-all duration-500 hover:border-foreground/30 rounded-none group">
                       <CardContent className="p-8 space-y-6 flex-1">
-                        <div className="w-12 h-12 border border-border bg-muted flex items-center justify-center text-foreground group-hover:bg-foreground group-hover:text-background transition-all duration-500">
+                        <div className="w-12 h-12 border border-border bg-muted flex items-center justify-center text-foreground group-hover:bg-linear-to-br group-hover:from-teal-400 group-hover:to-blue-500 group-hover:border-teal-400 group-hover:text-white transition-all duration-500 shadow-sm">
                           <Icon className="w-6 h-6" />
                         </div>
                         <div className="space-y-3">

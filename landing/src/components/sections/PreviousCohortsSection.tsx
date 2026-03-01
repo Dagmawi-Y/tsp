@@ -54,7 +54,7 @@ export const PreviousCohortsSection: React.FC = () => {
                     </div>
                   )}
                   <div className="absolute top-3 right-3">
-                    <span className="px-2 py-1 bg-foreground text-background text-[10px] font-black uppercase tracking-widest">
+                    <span className="px-2 py-1 bg-linear-to-r from-teal-500/90 to-blue-500/90 text-white text-[10px] font-black uppercase tracking-widest shadow-md">
                       {project.category}
                     </span>
                   </div>
@@ -67,7 +67,7 @@ export const PreviousCohortsSection: React.FC = () => {
                       <CardTitle className="text-xl group-hover:text-foreground transition-colors font-black uppercase tracking-tight font-display">
                         {project.title}
                       </CardTitle>
-                      <CardDescription className="mt-1 font-medium uppercase tracking-[0.1em] text-[10px]">
+                      <CardDescription className="mt-1 font-medium uppercase tracking-widest text-[10px]">
                         by {project.author} • {project.cohort}
                       </CardDescription>
                     </div>

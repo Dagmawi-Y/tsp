@@ -154,9 +154,9 @@ function ComingSoon() {
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, height: 0 }}
-                            className={`flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest p-4 border rounded-none ${status === 'success' || status === 'already_registered'
-                                ? 'bg-foreground text-background border-foreground'
-                                : 'bg-muted text-foreground border-border'
+                            className={`flex items-center justify-center gap-3 text-[10px] font-black uppercase tracking-widest p-4 shadow-lg ${status === 'success' || status === 'already_registered'
+                                ? 'bg-linear-to-r from-emerald-500 to-teal-500 text-white shadow-teal-500/25'
+                                : 'bg-linear-to-r from-rose-500 to-red-500 text-white shadow-rose-500/25'
                                 }`}
                         >
                             {status === 'success' || status === 'already_registered' ? (

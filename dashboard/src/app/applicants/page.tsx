@@ -13,18 +13,25 @@ import {
     MessageCircle,
     ExternalLink,
     ChevronLeft,
-    ChevronRight
+    ChevronRight,
+    X,
+    Check,
+    Ban,
+    Clock
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/Card";
 import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function ApplicantsPage() {
     const [applicants, setApplicants] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState("all");
+    const [selectedApplicant, setSelectedApplicant] = useState<any | null>(null);
+    const [updating, setUpdating] = useState(false);
 
     useEffect(() => {
         async function fetchApplicants() {
@@ -42,13 +49,37 @@ export default function ApplicantsPage() {
         fetchApplicants();
     }, []);
 
+    const updateStatus = async (id: string, newStatus: string) => {
+        setUpdating(true);
+        // Optimistic update
+        const previousApplicants = [...applicants];
+        setApplicants(applicants.map(app =>
+            app.id === id ? { ...app, status: newStatus } : app
+        ));
+        if (selectedApplicant?.id === id) {
+            setSelectedApplicant({ ...selectedApplicant, status: newStatus });
+        }
+
+        const { error } = await supabase
+            .from('applications')
+            .update({ status: newStatus })
+            .eq('id', id);
+
+        if (error) {
+            console.error('Error updating status:', error);
+            setApplicants(previousApplicants); // Rollback
+            alert('Failed to update status. Please try again.');
+        }
+        setUpdating(false);
+    };
+
     const filteredApplicants = applicants.filter(app => {
         const matchesSearch =
             `${app.first_name} ${app.last_name}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
             app.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
             app.telegram_username.toLowerCase().includes(searchTerm.toLowerCase());
 
-        const matchesStatus = filterStatus === "all" || app.status === filterStatus;
+        const matchesStatus = filterStatus === "all" || (app.status || 'pending') === filterStatus;
 
         return matchesSearch && matchesStatus;
     });
@@ -103,9 +134,6 @@ export default function ApplicantsPage() {
                                     </button>
                                 ))}
                             </div>
-                            <button className="p-3 bg-muted border border-border hover:bg-foreground hover:text-background transition-all">
-                                <Filter className="w-4 h-4" />
-                            </button>
                         </div>
                     </div>
                 </CardHeader>
@@ -130,8 +158,8 @@ export default function ApplicantsPage() {
                                 {filteredApplicants.map((app) => (
                                     <tr key={app.id} className="group hover:bg-muted/30 transition-colors">
                                         <td className="py-5">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-12 h-12 border border-border flex items-center justify-center text-foreground font-black text-lg bg-muted">
+                                            <div className="flex items-center gap-4 text-left">
+                                                <div className="w-12 h-12 border border-border flex items-center justify-center text-foreground font-black text-lg bg-muted shrink-0">
                                                     {app.first_name[0]}{app.last_name[0]}
                                                 </div>
                                                 <div>
@@ -144,12 +172,9 @@ export default function ApplicantsPage() {
                                         </td>
                                         <td className="py-5">
                                             <div className="flex gap-2">
-                                                <a href={`mailto:${app.email}`} className="p-2 border border-border text-muted-foreground hover:bg-foreground hover:text-background transition-all">
+                                                <a href={`mailto:${app.email}`} title={app.email} className="p-2 border border-border text-muted-foreground hover:bg-foreground hover:text-background transition-all">
                                                     <Mail className="w-4 h-4" />
                                                 </a>
-                                                <button className="p-2 border border-border text-muted-foreground hover:bg-foreground hover:text-background transition-all">
-                                                    <MessageCircle className="w-4 h-4" />
-                                                </button>
                                                 {app.github_url && (
                                                     <a href={app.github_url} target="_blank" rel="noreferrer" className="p-2 border border-border text-muted-foreground hover:bg-foreground hover:text-background transition-all">
                                                         <Github className="w-4 h-4" />
@@ -181,7 +206,10 @@ export default function ApplicantsPage() {
                                             {format(new Date(app.created_at), 'MMM d, yyyy')}
                                         </td>
                                         <td className="py-5 text-right">
-                                            <button className="p-3 border border-border text-muted-foreground hover:bg-foreground hover:text-background transition-all">
+                                            <button
+                                                onClick={() => setSelectedApplicant(app)}
+                                                className="p-3 border border-border text-muted-foreground hover:bg-foreground hover:text-background transition-all"
+                                            >
                                                 <ExternalLink className="w-4 h-4" />
                                             </button>
                                         </td>
@@ -193,19 +221,164 @@ export default function ApplicantsPage() {
 
                     <div className="mt-8 flex items-center justify-between border-t border-border pt-6">
                         <p className="text-sm font-medium text-muted-foreground">
-                            Showing 1 to {filteredApplicants.length} of {applicants.length} applicants
+                            Showing {filteredApplicants.length} of {applicants.length} applicants
                         </p>
-                        <div className="flex gap-2">
-                            <button disabled className="p-2 border border-border text-muted-foreground opacity-50 cursor-not-allowed">
-                                <ChevronLeft className="w-5 h-5" />
-                            </button>
-                            <button disabled className="p-2 border border-border text-muted-foreground opacity-50 cursor-not-allowed">
-                                <ChevronRight className="w-5 h-5" />
-                            </button>
-                        </div>
                     </div>
                 </CardContent>
             </Card>
+
+            {/* Applicant Detail Modal */}
+            <AnimatePresence>
+                {selectedApplicant && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setSelectedApplicant(null)}
+                            className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            className="relative w-full max-w-4xl max-h-[90vh] bg-card border border-border shadow-2xl overflow-hidden flex flex-col"
+                        >
+                            {/* Modal Header */}
+                            <div className="p-8 border-b border-border flex items-center justify-between bg-muted/30">
+                                <div className="flex items-center gap-6">
+                                    <div className="w-20 h-20 border border-border flex items-center justify-center text-4xl font-black bg-background shrink-0">
+                                        {selectedApplicant.first_name[0]}{selectedApplicant.last_name[0]}
+                                    </div>
+                                    <div>
+                                        <h2 className="text-3xl font-black uppercase tracking-tighter leading-none mb-2">
+                                            {selectedApplicant.first_name} {selectedApplicant.last_name}
+                                        </h2>
+                                        <div className="flex flex-wrap gap-4">
+                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                                                <Mail className="w-3 h-3" /> {selectedApplicant.email}
+                                            </div>
+                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                                                <MessageCircle className="w-3 h-3" /> @{selectedApplicant.telegram_username}
+                                            </div>
+                                            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                                                <Clock className="w-3 h-3" /> {selectedApplicant.hours_per_week} HRS/WK
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => setSelectedApplicant(null)}
+                                    className="p-2 hover:bg-muted transition-colors"
+                                >
+                                    <X className="w-6 h-6" />
+                                </button>
+                            </div>
+
+                            {/* Modal Body */}
+                            <div className="flex-1 overflow-y-auto p-8 space-y-12">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                                    <div className="space-y-6">
+                                        <section>
+                                            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-4">Application Narrative</h3>
+                                            <div className="space-y-6">
+                                                <div>
+                                                    <p className="text-[10px] font-black uppercase tracking-widest mb-2">Project Vision</p>
+                                                    <p className="text-sm font-medium leading-relaxed bg-muted/30 p-4 border border-border">
+                                                        {selectedApplicant.project_description}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-[10px] font-black uppercase tracking-widest mb-2">Technical Challenges</p>
+                                                    <p className="text-sm font-medium leading-relaxed bg-muted/30 p-4 border border-border">
+                                                        {selectedApplicant.technical_challenge}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+
+                                    <div className="space-y-12">
+                                        <section>
+                                            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-4">Profile & Experience</h3>
+                                            <div className="flex flex-wrap gap-2 mb-6">
+                                                {selectedApplicant.experience.map((exp: string) => (
+                                                    <span key={exp} className="px-3 py-1 border border-border bg-foreground/5 text-foreground text-[10px] font-black uppercase tracking-widest">
+                                                        {exp}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                            <div className="space-y-4">
+                                                <p className="text-[10px] font-black uppercase tracking-widest mb-2">Motivation</p>
+                                                <p className="text-sm font-medium leading-relaxed">
+                                                    {selectedApplicant.why_join}
+                                                </p>
+                                            </div>
+                                        </section>
+
+                                        <section>
+                                            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-4">Verification Links</h3>
+                                            <div className="grid grid-cols-1 gap-3">
+                                                {selectedApplicant.github_url && (
+                                                    <a href={selectedApplicant.github_url} target="_blank" rel="noreferrer" className="flex items-center justify-between p-4 border border-border hover:bg-muted transition-colors group">
+                                                        <span className="text-[10px] font-black uppercase tracking-widest">GitHub Repository</span>
+                                                        <Github className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                                                    </a>
+                                                )}
+                                                {selectedApplicant.linkedin_url && (
+                                                    <a href={selectedApplicant.linkedin_url} target="_blank" rel="noreferrer" className="flex items-center justify-between p-4 border border-border hover:bg-muted transition-colors group">
+                                                        <span className="text-[10px] font-black uppercase tracking-widest">LinkedIn Profile</span>
+                                                        <Linkedin className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                                                    </a>
+                                                )}
+                                                {selectedApplicant.project_link && (
+                                                    <a href={selectedApplicant.project_link} target="_blank" rel="noreferrer" className="flex items-center justify-between p-4 border border-border hover:bg-muted transition-colors group">
+                                                        <span className="text-[10px] font-black uppercase tracking-widest">Project Demo</span>
+                                                        <ExternalLink className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                                                    </a>
+                                                )}
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Modal Footer - Actions */}
+                            <div className="p-8 border-t border-border flex items-center justify-between bg-muted/30">
+                                <div className="flex items-center gap-4">
+                                    <div className={cn(
+                                        "px-4 py-2 border text-[10px] font-black uppercase tracking-widest",
+                                        selectedApplicant.status === 'accepted' ? "bg-foreground text-background border-foreground" :
+                                            selectedApplicant.status === 'rejected' ? "bg-muted text-muted-foreground border-border" :
+                                                "bg-background text-foreground border-border"
+                                    )}>
+                                        Current Status: {selectedApplicant.status || 'pending'}
+                                    </div>
+                                </div>
+                                <div className="flex gap-4">
+                                    <button
+                                        disabled={updating || selectedApplicant.status === 'rejected'}
+                                        onClick={() => updateStatus(selectedApplicant.id, 'rejected')}
+                                        className="flex items-center gap-2 px-8 py-4 border border-border hover:bg-muted text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
+                                    >
+                                        <Ban className="w-4 h-4" />
+                                        Reject
+                                    </button>
+                                    <button
+                                        disabled={updating || selectedApplicant.status === 'accepted'}
+                                        onClick={() => updateStatus(selectedApplicant.id, 'accepted')}
+                                        className="flex items-center gap-2 px-8 py-4 bg-foreground text-background border border-foreground hover:bg-background hover:text-foreground text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
+                                    >
+                                        <Check className="w-4 h-4" />
+                                        Accept Application
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
+

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ThemeToggle } from './theme-toggle';
 import { cn } from '@/lib/utils';
 
 interface NavbarProps {
@@ -96,9 +95,6 @@ export function Navbar({ offsetTop = false }: NavbarProps) {
               </li>
             ))}
           </ul>
-          <div className="ml-2 pl-2 border-l border-border">
-            <ThemeToggle />
-          </div>
         </div>
       </motion.div>
     </motion.nav>

@@ -41,6 +41,31 @@ export default function WaitlistPage() {
         item.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const exportToCSV = () => {
+        if (waitlist.length === 0) return;
+
+        const headers = ["Email", "Joined Date"];
+        const rows = waitlist.map(item => [
+            item.email,
+            format(new Date(item.created_at), 'yyyy-MM-dd HH:mm:ss')
+        ]);
+
+        const csvContent = [
+            headers.join(","),
+            ...rows.map(row => row.join(","))
+        ].join("\n");
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", `tsp-waitlist-${format(new Date(), 'yyyy-MM-dd')}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
@@ -57,7 +82,11 @@ export default function WaitlistPage() {
                     <h1 className="text-4xl font-black tracking-tight font-display mb-1">Waitlist.</h1>
                     <p className="text-muted-foreground font-medium text-lg">Interested individuals pending application opening.</p>
                 </div>
-                <button className="flex items-center gap-2 px-6 py-3 bg-foreground text-background font-black uppercase tracking-widest text-[10px] border border-foreground hover:bg-background hover:text-foreground transition-all active:translate-y-0.5">
+                <button
+                    onClick={exportToCSV}
+                    disabled={waitlist.length === 0}
+                    className="flex items-center gap-2 px-6 py-3 bg-foreground text-background font-black uppercase tracking-widest text-[10px] border border-foreground hover:bg-background hover:text-foreground transition-all active:translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                     <Download className="w-4 h-4" />
                     Export CSV
                 </button>

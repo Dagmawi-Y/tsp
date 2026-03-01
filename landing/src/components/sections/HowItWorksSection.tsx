@@ -58,10 +58,10 @@ export default function HowItWorksSection() {
                     <CardContent className="p-8 space-y-8 flex-1">
                       {/* Number Indicator */}
                       <div className="flex items-center justify-between">
-                        <span className="text-5xl font-black text-foreground/10 group-hover:text-foreground/20 transition-colors duration-500 font-display">
+                        <span className="text-5xl font-black text-foreground/10 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-teal-400 group-hover:to-blue-500 transition-all duration-500 font-display">
                           {step.number}
                         </span>
-                        <div className="w-10 h-10 border border-border bg-muted flex items-center justify-center text-foreground opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-4 group-hover:translate-x-0">
+                        <div className="w-10 h-10 border border-border bg-muted flex items-center justify-center text-foreground opacity-0 group-hover:opacity-100 group-hover:border-teal-400/50 group-hover:text-teal-500 transition-all duration-500 transform translate-x-4 group-hover:translate-x-0">
                           <ArrowRight className="w-5 h-5" />
                         </div>
                       </div>

@@ -3,12 +3,14 @@ import { allProjects } from "@/data/projects";
 import ProjectDetail from "@/components/sections/ProjectDetailSection";
 
 interface ProjectDetailPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
+export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
+  const resolvedParams = await params;
+
   // This is fine for static data
-  const project = allProjects.find((p) => p.id === params.id);
+  const project = allProjects.find((p) => p.id === resolvedParams.id);
 
   if (!project) return notFound();
 

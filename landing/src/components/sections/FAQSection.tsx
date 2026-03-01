@@ -67,8 +67,8 @@ export const FAQSection: React.FC = () => {
           className="max-w-3xl mx-auto relative"
         >
           {/* Decorative background elements */}
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-foreground/5 blur-3xl -z-10" />
-          <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-foreground/5 blur-3xl -z-10" />
+          <div className="absolute -top-24 -right-24 w-64 h-64 bg-teal-500/10 blur-[80px] -z-10" />
+          <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-500/10 blur-[80px] -z-10" />
 
           <FAQAccordion items={faqData} />
         </SlideUp>
