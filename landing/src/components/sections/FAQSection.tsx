@@ -7,7 +7,7 @@ const faqData = [
   {
     id: 'who-can-apply',
     question: 'Who can apply?',
-    answer: 'Anyone motivated to learn and build. Beginners, self-taught devs, bootcamp grads, CS students - all welcome.'
+    answer: 'Anyone with basic full-stack experience who has built at least one project.'
   },
   {
     id: 'is-it-free',
@@ -37,7 +37,7 @@ const faqData = [
   {
     id: 'selection-process',
     question: 'How are people selected?',
-    answer: 'Based on motivation and commitment, not current skill level. Show passion and willingness to work.'
+    answer: 'Selection is based on motivation, consistency, and evidence of basic full-stack experience.'
   },
   {
     id: 'after-program',
